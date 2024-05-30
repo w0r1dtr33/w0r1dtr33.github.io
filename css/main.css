@@ -353,8 +353,8 @@
     margin: 10px;
 }
 #loading img {
-    border-radius: 0;
-    height: 50px;
+    border-radius: 50px;
+    height: 200px;
 }
 #loading-circle {
     align-items: center;
