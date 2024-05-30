@@ -178,6 +178,7 @@
     display: flex;
     justify-content: center;
     text-align: center;
+    opacity: 80%
 }
 #home-head #home-info .loop:nth-child(1) {
     animation: loop1 10s linear infinite;
@@ -185,6 +186,7 @@
     border-radius: 38% 62% 63% 37%/41% 44% 56% 59%;
     opacity: 0.3;
     transform: rotate(30deg);
+    opacity: 20%
 }
 #home-head #home-info .loop:nth-child(2) {
     animation: loop2 15s linear infinite;
@@ -192,6 +194,7 @@
     border-radius: 38% 62% 63% 37%/41% 44% 56% 59%;
     opacity: 0.45;
     transform: rotate(60deg);
+    opacity: 20%
 }
 #home-head #home-info .loop:nth-child(3) {
     animation: loop3 10s linear infinite;
@@ -199,6 +202,7 @@
     border-radius: 38% 62% 63% 37%/41% 44% 56% 59%;
     opacity: 0.3;
     transform: rotate(90deg);
+    opacity: 20%
 }
 #home-head #home-info .loop:nth-child(4) {
     animation: loop4 15s linear infinite;
@@ -206,6 +210,7 @@
     border-radius: 38% 62% 63% 37%/41% 44% 56% 59%;
     opacity: 0.45;
     transform: rotate(120deg);
+    opacity: 20%
 }
 #home-head #home-info,
 #home-posts {
