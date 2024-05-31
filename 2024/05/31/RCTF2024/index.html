@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>tags | d1e4f1ag&#39;s land</title>
+    <title>RCTF2024 | d1e4f1ag&#39;s land</title>
     <meta name="author" content="d1e4f1ag" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -37,6 +37,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -150,34 +154,236 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
-        
-        
-        
-        <span>
-            <a href="/tags/%E5%A4%8D%E7%8E%B0/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                复现
-            </a>
+            <div class="article">
+    <div>
+        <h1>RCTF2024</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/5/31
         </span>
         
         
-        
-        <span>
-            <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                知识点
-            </a>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%A4%8D%E7%8E%B0/" style="color: #ff7d73">
+                    复现
+                </a>
+            </span>
+            
         </span>
-        
         
     </div>
+    
+    <div class="content" v-pre>
+        <p>REGEXP注入</p>
+<span id="more"></span>
+
+<h1 id="WHAT-IS-LOVE"><a href="#WHAT-IS-LOVE" class="headerlink" title="WHAT IS LOVE"></a>WHAT IS LOVE</h1><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><blockquote>
+<p>main.js</p>
+</blockquote>
+<pre><code class="js">const express = require(&quot;express&quot;);
+const bodyParser = require(&quot;body-parser&quot;);
+const path = require(&quot;path&quot;);
+const mysql = require(&quot;mysql&quot;);
+const auth = require(&quot;./auth&quot;);
+
+const app = express();
+const port = 3000;
+const key2 = &quot;_key2&#125;&quot;;
+const db = mysql.createPool(&#123;
+  host: &quot;db&quot;,
+  user: &quot;user&quot;,
+  password: &quot;password&quot;,
+  database: &quot;test&quot;,
+&#125;);
+
+class My_lover &#123;
+  constructor() &#123;
+    this.username = process.env.LOVER || &quot;lover&quot;;
+    this.love_time = parseInt(process.env.LOVE_TIME, 10) || 30;
+  &#125;
+&#125;
+
+const my_lover = new My_lover(); // new one lover, OvO
+
+const blacklist = [
+  &quot;SELECT&quot;,
+  &quot;CREATE&quot;,
+  &quot;TABLE&quot;,
+  &quot;DATABASE&quot;,
+  &quot;IF&quot;,
+  &quot;\\(&quot;,
+  &quot;\\)&quot;,
+  &quot;INSERT&quot;,
+  &quot;UPDATE&quot;,
+  &quot;DELETE&quot;,
+  &quot;AND&quot;,
+  &quot;OR&quot;,
+  &quot;\\.\\./&quot;,
+  &quot;\\./&quot;,
+  &quot;UNION&quot;,
+  &quot;INTO&quot;,
+  &quot;LOAD_FILE&quot;,
+  &quot;OUTFILE&quot;,
+  &quot;DUMPFILE&quot;,
+  &quot;SUB&quot;,
+  &quot;HEX&quot;,
+  &quot;NOW&quot;,
+  &quot;CURRENT_TIMESTAMP&quot;,
+  &quot;GETDATE&quot;,
+  &quot;SLEEP&quot;,
+  &quot;SUBSTRING&quot;,
+  &quot;MID&quot;,
+  &quot;LEFT&quot;,
+  &quot;RIGHT&quot;,
+  &quot;ASCII&quot;,
+  &quot;CHAR&quot;,
+  &quot;REPEAT&quot;,
+  &quot;REPLICATE&quot;,
+  &quot;LIKE&quot;,
+  &quot;%&quot;,
+];
+
+function isSafe(input) &#123;
+  const pattern = new RegExp(blacklist.join(&quot;|&quot;), &quot;i&quot;);
+  return !pattern.test(input);
+&#125;
+
+app.set(&quot;view engine&quot;, &quot;ejs&quot;);
+
+app.use(bodyParser.urlencoded(&#123; extended: true &#125;));
+
+app.use(express.static(path.join(__dirname, &quot;public&quot;)));
+
+app.get(&quot;/&quot;, (req, res) =&gt; &#123;
+  res.render(&quot;key1&quot;);
+&#125;);
+
+app.get(&quot;/key2&quot;, (req, res) =&gt; &#123;
+  res.render(&quot;key2&quot;);
+&#125;);
+
+app.get(&quot;/check&quot;, (req, res) =&gt; &#123;
+  res.render(&quot;check&quot;);
+&#125;);
+
+app.post(&quot;/key1&quot;, (req, res) =&gt; &#123;
+  const &#123; key1 &#125; = req.body;
+  if (key1.length &gt; 52 || !isSafe(key1)) &#123;
+    return res.send(&quot;love waf&quot;);
+  &#125;
+  let res1 = `SELECT * FROM key1 WHERE love_key = &#39;$&#123;key1&#125;&#39;`;
+  db.query(`SELECT * FROM key1 WHERE love_key = &#39;$&#123;key1&#125;&#39;`, (err, results) =&gt; &#123;
+    if (err) &#123;
+      res.send(&quot;error&quot;);
+    &#125; else if (results.length &gt; 0) &#123;
+      res.send(&quot;success&quot;);
+    &#125; else &#123;
+      res.send(&quot;wrong&quot;);
+    &#125;
+  &#125;);
+&#125;);
+
+app.post(&quot;/key2&quot;, (req, res) =&gt; &#123;
+  let &#123; username, love_time &#125; = req.body;
+  let userInfo = &#123;&#125;;
+  userInfo.username = username;
+  userInfo.love_time = Number(love_time);
+  if (userInfo.love_time &lt; 10000 || typeof userInfo.love_time !== &quot;number&quot;) &#123;
+    res.send(
+      &quot;There was once a sincere love in front of me, I didn&#39;t cherish it, and I regretted it when I lost it, and the most painful thing in the world is nothing more than this. If God could give me a chance to start over, I would say three words to that girl: I love you. If I had to put a deadline on this love, I would say 10,000 years.&quot;
+    );
+  &#125;
+  let have_lovers = false;
+  if (
+    userInfo.username === my_lover.username &amp;&amp;
+    userInfo.love_time === my_lover.love_time
+  ) &#123;
+    have_lovers = true;
+  &#125;
+  let token = auth.createToken(&#123;
+    username: userInfo.username,
+    love_time: userInfo.love_time,
+    have_lovers: have_lovers,
+  &#125;);
+  res.send(`give your a love token:$&#123;token&#125;`);
+&#125;);
+
+app.post(&quot;/check&quot;, (req, res) =&gt; &#123;
+  let &#123; love_token &#125; = req.body;
+  const [userinfo, err] = auth.decodeToken(love_token);
+  if (err) &#123;
+    res.send(&quot;error&quot;);
+    return;
+  &#125;
+  if (userinfo.have_lovers) &#123;
+    res.send(`your key2 is $&#123;key2&#125;`);
+  &#125; else &#123;
+    res.send(&quot;your have not lover&quot;);
+  &#125;
+&#125;);
+
+app.listen(port, () =&gt; &#123;
+  console.log(`http://localhost:$&#123;port&#125;`);
+&#125;);
+</code></pre>
+<blockquote>
+<p>auth.js</p>
+</blockquote>
+<pre><code class="js">const crypto = require(&quot;crypto&quot;);
+
+const secret = crypto.randomBytes(128);
+const hash = (data) =&gt; crypto.createHash(&quot;sha256&quot;).update(data).digest(&quot;hex&quot;);
+
+
+const createToken = (userinfo) =&gt; &#123;
+  const saltedSecret =
+    parseInt(Buffer.from(secret).readBigUInt64BE()) +
+    parseInt(userinfo.love_time);
+  const data = JSON.stringify(userinfo);
+  return (
+    Buffer.from(data).toString(&quot;base64&quot;) + &quot;.&quot; + hash(`$&#123;data&#125;:$&#123;saltedSecret&#125;`)
+  );
+&#125;;
+
+const decodeToken = (token) =&gt; &#123;
+  if (!token) return [null, &quot;invalid token&quot;];
+  const [dataHex, signature] = token.split(&quot;.&quot;);
+  const data = Buffer.from(dataHex, &quot;base64&quot;).toString();
+  const userinfo = JSON.parse(data);
+  const saltedSecret =
+    parseInt(Buffer.from(secret).readBigUInt64BE()) +
+    parseInt(userinfo.love_time);
+
+  if (hash(`$&#123;data&#125;:$&#123;saltedSecret&#125;`) !== signature)
+    return [null, &quot;invalid token: it is not you&quot;];
+  return [userinfo, null];
+&#125;;
+
+
+module.exports = &#123;
+  createToken,
+  decodeToken,
+&#125;;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
     
 </div>
 
@@ -209,6 +415,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>

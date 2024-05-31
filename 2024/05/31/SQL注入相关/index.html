@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Tags: 复现 | d1e4f1ag&#39;s land</title>
+    <title>SQL注入相关 | d1e4f1ag&#39;s land</title>
     <meta name="author" content="d1e4f1ag" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -37,6 +37,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -150,12 +154,96 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
-    
-    <div class="categories-tags">
+            <div class="article">
+    <div>
+        <h1>SQL注入相关</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/5/31
+        </span>
         
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #00bcd4">
+                    知识点
+                </a>
+            </span>
+            
+        </span>
         
     </div>
+    
+    <div class="content" v-pre>
+        <p>REGEXP注入</p>
+<p>LIKE注入</p>
+<span id="more"></span>
+
+<h1 id="REGEXP注入"><a href="#REGEXP注入" class="headerlink" title="REGEXP注入"></a>REGEXP注入</h1><p>regexp注入即正则表达式注入，也叫盲注值正则表达式攻击</p>
+<h2 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h2><blockquote>
+<p>盲注</p>
+</blockquote>
+<pre><code class="sql">select (select username from users where id=1) regexp &#39;^a&#39;;
+匹配(select username from users where id=1)部分并且进行正则匹配，匹配规则是^a，即匹配开头是否为a，是则返回1，不是则返回0
+故上面这个语句只返回0或者1，适用于盲注
+</code></pre>
+<blockquote>
+<p>代替“&#x3D;”作为判断条件</p>
+</blockquote>
+<pre><code class="sql">select * from users where password regexp &#39;^adm&#39;;
+返回password是以adm开头的字段
+</code></pre>
+<p>常用的方法还有使用$从后往前进行匹配</p>
+<blockquote>
+<p>联合查询中的注入</p>
+</blockquote>
+<pre><code class="sql">1 union select 1,database() regexp &#39;^s&#39;,3--+
+database若是s开头，则返回1
+</code></pre>
+<p>#LIKE盲注</p>
+<h2 id="语句-1"><a href="#语句-1" class="headerlink" title="语句"></a>语句</h2><blockquote>
+<p>判断第一个字符是否为s</p>
+</blockquote>
+<pre><code class="sql">select 1,database() like &#39;s%&#39;#
+</code></pre>
+<blockquote>
+<p>判断前两个字符是否是se</p>
+</blockquote>
+<pre><code class="sql">select 1,database() like &#39;se%&#39;#
+</code></pre>
+<blockquote>
+<p>判断是否包含se字符</p>
+</blockquote>
+<pre><code class="sql">select 1,database() like &#39;%se%&#39;#
+</code></pre>
+<blockquote>
+<p>判断字符长度</p>
+</blockquote>
+<pre><code class="sql">select 1,database() like &#39;-----&#39;#
+</code></pre>
+<blockquote>
+<p>判断第一个字符是否为s</p>
+</blockquote>
+<pre><code class="sql">select 1,database() like &#39;s----&#39;#
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
     
 </div>
 
@@ -187,6 +275,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
