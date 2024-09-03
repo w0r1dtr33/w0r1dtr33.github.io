@@ -9,7 +9,7 @@
     <meta name="keywords" content="" />
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        content="width=device-width, initial-scale=0.8, maximum-scale=1.0, user-scalable=0"
     />
     <link rel="icon" href="/images/avatar2.png" />
     <link rel="preconnect" href="https://s4.zstatic.net" />
@@ -154,38 +154,39 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div class="article">
-    <div>
-        <h1>springboot</h1>
-    </div>
-    <div class="info">
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/9/3
-        </span>
-        
-        
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
+            <body data-images="/images/20230609024433150.jpg,/images/20230609024549286.jpg,/images/20231106082814394.jpg,/images/20231106083123603.jpg,/images/20231106083152400.jpg,/images/20231106083340387.jpg,/images/20231106083421728.jpg">
+    <div class="article">
+        <div>
+            <h1>springboot</h1>
+        </div>
+        <div class="info">
+            <span class="date">
+                <span class="icon">
+                    <i class="fa-solid fa-calendar fa-fw"></i>
+                </span>
+                2024/9/3
             </span>
             
             
-            <span class="tag">
+            <span class="tags">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
                 
-                <a href="/tags/java/" style="color: #ff7d73">
-                    java
-                </a>
+                
+                <span class="tag">
+                    
+                    <a href="/tags/java/" style="color: #03a9f4">
+                        java
+                    </a>
+                </span>
+                
             </span>
             
-        </span>
+        </div>
         
-    </div>
-    
-    <div class="content" v-pre>
-        <p>asegikbaekfhalifweh</p>
+        <div class="content" v-pre>
+            <p>asegikbaekfhalifweh</p>
 <span id="more"></span>
 
 <h1 id="SpringBoot"><a href="#SpringBoot" class="headerlink" title="SpringBoot"></a>SpringBoot</h1><p>一个java框架，Spring是最原始的东西，然后这个框架是为了，加快Spring的开发框架而产生的。SpringBoot快速的启动Spring。</p>
@@ -681,21 +682,21 @@ age :&lt;span th:utext=&quot;$&#123;age&#125;&quot;&gt;年龄&lt;/span&gt;
 </li>
 </ul>
 
-    </div>
-    
+        </div>
+        
     <div id="toc">
-        <strong class="sidebar-title">目录</strong>
         <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SpringBoot"><span class="toc-text">SpringBoot</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-text">微服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AASpringBoot%E7%A8%8B%E5%BA%8F"><span class="toc-text">第一个SpringBoot程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#pom-xml"><span class="toc-text">pom.xml</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#application-properties"><span class="toc-text">application.properties</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-text">自动装配的原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Springboot%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C"><span class="toc-text">Springboot项目运行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E4%B8%AA%E5%9B%9E%E5%A4%B4%E7%9C%8B%E4%B8%80%E4%B8%8B"><span class="toc-text">这个回头看一下</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Springboot%E9%85%8D%E7%BD%AEyaml%E9%85%8D%E7%BD%AE"><span class="toc-text">Springboot配置yaml配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5"><span class="toc-text">依赖注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F-%E5%8D%A0%E4%BD%8D%E7%AC%A6%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">变量 - 占位符表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%B3%A8%E8%A7%A3"><span class="toc-text">配置注解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-%E4%B8%8E-%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-text">新的配置文件 与 多环境配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E5%8E%9F%E7%90%86"><span class="toc-text">自动装配原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#debug-%E9%85%8D%E7%BD%AE"><span class="toc-text">debug 配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Springboot-web%E5%BC%80%E5%8F%91"><span class="toc-text">Springboot web开发</span></a></li></ol>
     </div>
 
-    
-    
-    
-    
-    
-    
-    
-</div>
+        
+        
+        
+        
+        
+        
+        
+    </div>
+</body>
 <script src="/js/toc.js"></script>
             <footer id="footer">
     <div id="footer-wrap">

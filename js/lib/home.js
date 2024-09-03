@@ -3,7 +3,7 @@ mixins.home = {
         let background = this.$refs.homeBackground;
         let images = background.dataset.images.split(",");
         let id = Math.floor(Math.random() * images.length);
-        background.style.backgroundImage = `url('${images[id]}')`;
+        document.body.style.backgroundImage = `url('${images[id]}')`;
         this.menuColor = true;
     },
     methods: {
