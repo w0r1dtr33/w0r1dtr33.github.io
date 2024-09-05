@@ -34,7 +34,7 @@
 #archives .categories-tags span a:hover {
     background: #fff !important;
     border: #a5c2f5 1px solid;
-    color: #5c6b72;
+    color: #3057DA;
 }
 
 #archives .category,
@@ -149,7 +149,7 @@
 
 #home-card #card-div .friend-links a {
     border-radius: 5px;
-    color: #5c6b72;
+    color: #3057DA;
     display: block;
     padding: 8px 0;
 }
@@ -160,7 +160,7 @@
 
 #home-card #card-div .icon-links a {
     border-radius: 5px;
-    color: #5c6b72;
+    color: #3057DA;
     font-size: 18px;
     padding: 5px;
 }
@@ -187,12 +187,7 @@
 }
 
 #home-head {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-}
 
-#home-head {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -252,6 +247,8 @@
 
 #home-head #home-info,
 #home-posts {
+    visibility: hidden;
+    /*暂时隐藏一下*/
     margin: auto;
 }
 
@@ -299,7 +296,7 @@
 }
 
 #home-posts .post .category-and-date {
-    color: #5c6b72;
+    color: #3057DA;
     margin-top: 15px;
     text-align: center;
     width: 100%;
@@ -316,12 +313,12 @@
 #archives .item-time,
 #archives .categories-tags span a:hover .icon,
 .article .info a {
-    color: #5c6b72;
+    color: #3057DA;
 }
 
 #home-posts .post .category-and-date .date,
 #archives .tags,
-#menu #desktop-menu a span {
+#menu a span {
     display: inline-block;
 }
 
@@ -434,7 +431,7 @@
     margin-right: calc(100% - 100vw);
 }
 
-#menu {
+/* #menu {
     background: transparent;
     box-shadow: 0 -1px 10px 0 #9e9e9e4d;
     font-weight: bold;
@@ -444,23 +441,52 @@
     transition: background 0.25s ease-out, top 0.25s ease-out;
     width: 100vw;
     z-index: 1004;
+} */
+#menu {
+    font-weight: bold;
+    font-size: 30px;
+    /* 增加字体大小 */
+    line-height: 70px;
+    /* 增加行高 */
+    display: flex; /* 使用 flex 布局 */
+    position: fixed; /* 或者使用 absolute */
+    top: 50%;
+    /* 垂直居中 */
+    left: 54%;
+    /* 水平居中 */
+    transform: translate(-50%, -50%);
+    /* 调整位置以实现真正的居中 */
+    min-width: 200px;
+    /* 设置最小宽度 */
+    width: auto;
+    /* 可以根据内容自适应宽度 */
+    white-space: nowrap;
+    /* 防止文本换行 */
+    z-index: 1004;
 }
-
-#menu #desktop-menu {
-    height: 50px;
-}
-
-#menu #desktop-menu .title {
+#menu a {
+    width: 100px;
+    height: 250px;
+    padding: 30px;
     color: #ffffff;
+    background-color: #fff5;
     display: inline-block;
-    margin-left: 60px;
-    margin-right: 5px;
+    margin: 0 100px;
+    /* 设置左右间隔 */
+    margin-left: 5px;
+    position: relative;
+    /* 使背景相对于链接的位置 */
+    overflow: hidden;
+    /* 隐藏超出部分 */
 }
 
-#menu #desktop-menu a {
-    color: #ffffff;
+.parallax-item {
+    position: relative;
+    /* 使背景相对于链接的位置 */
+    margin: 20px;
     display: inline-block;
-    margin-left: 30px;
+    transition: transform 0.1s ease;
+    /* 增加过渡时间 */
 }
 
 #menu #mobile-menu {
@@ -482,17 +508,21 @@
 }
 
 #menu #mobile-menu .items a {
-    color: #555;
+    color: #3057DA;
 }
 
 #menu #mobile-menu .title {
-    color: #555;
+    background: #fff5;
+    color: #3057DA;
     cursor: pointer;
+    padding-inline: 10px;
     z-index: 1003;
+    border-radius: 10px;
 }
 
 #menu-curtain {
-    background: #0003;
+    background: rgba(184, 201, 255, 0.5);
+    /* 设定蓝色背景和透明度 */
     height: 100%;
     left: 0;
     position: fixed;
@@ -509,7 +539,6 @@
     background: #0003;
 }
 
-#menu.menu-color #desktop-menu a,
 #menu.menu-color #mobile-menu a,
 #menu.menu-color #mobile-menu .title {
     color: #fff;
@@ -599,7 +628,7 @@ body::-webkit-scrollbar-track {
 }
 
 .copycode {
-    color: #5c6b72;
+    color: #3057DA;
     position: absolute;
     right: 0;
     top: 0;
@@ -645,12 +674,12 @@ body::-webkit-scrollbar-track {
 }
 
 .icon {
-    color: #5c6b72;
+    color: #3057DA;
     margin-right: 5px;
 }
 
 .input {
-    background: #f6f8fa;
+    background: #f6f8fa55;
     border: 1px solid #d0d7de;
     border-radius: 50px;
     box-sizing: border-box;
@@ -664,14 +693,14 @@ body::-webkit-scrollbar-track {
 }
 
 .input:focus {
-    background: #fff;
+    background: #fff5;
     border-color: #0969da;
     box-shadow: 0 0 0 3px #0969da4d;
     outline: none;
 }
 
 .input:hover {
-    background: #fff;
+    background: #fff8;
 }
 
 .into-enter-active {
@@ -731,7 +760,7 @@ body::-webkit-scrollbar-track {
 }
 
 .timeline-content {
-    background: #fff;
+    background: #fff6;
     border: 1px solid #0002;
     border-radius: 3px;
     margin-left: 17.5px;
@@ -787,7 +816,7 @@ a {
 
 a:hover,
 .content .copycode:hover {
-    opacity: 0.8;
+    opacity: 1;
 }
 
 audio,
@@ -830,12 +859,22 @@ blockquote {
     width: 100%;
 } */
 body {
-    background-position: center; /* 背景图居中 */
-    background-repeat: no-repeat; /* 不重复背景图 */
-    background-size: cover; /* 背景图覆盖整个页面 */
-    background-attachment: fixed; /* 背景图固定 */
-    height: 100vh; /* 设置 body 高度为视口高度 */
-    margin: 0; /* 去掉默认的 margin */
+    background-position: center;
+    /* 背景图居中 */
+    background-repeat: no-repeat;
+    /* 不重复背景图 */
+    background-size: cover;
+    /* 背景图覆盖整个页面 */
+    background-attachment: fixed;
+    /* 背景图固定 */
+    height: 100vh;
+    /* 设置 body 高度为视口高度 */
+    margin: 0;
+    /* 去掉默认的 margin */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 code {
@@ -1039,16 +1078,14 @@ ol li {
     #home-posts .post .description {
         font: bold;
         padding: 20px 0;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* 字体阴影 */
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        /* 字体阴影 */
     }
 
     #home-posts-wrap {
         max-width: 1200px;
     }
 
-    #menu #desktop-menu {
-        display: block;
-    }
 
     #menu #mobile-menu {
         display: none;
@@ -1152,7 +1189,6 @@ ol li {
         width: 100%;
     }
 
-    #menu #desktop-menu,
     #home-card {
         display: none;
     }
@@ -1180,9 +1216,11 @@ ol li {
     background-color: #fff5;
     border-radius: 10px;
 }
+
 #toc a.toc-link {
     color: #ffffff;
 }
+
 #toc a.active {
     font-weight: bold;
     color: #3057DA;

@@ -32,6 +32,27 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", activateLink);
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('#menu a');
+
+    links.forEach(link => {
+        link.addEventListener('mousemove', (e) => {
+            const { offsetWidth, offsetHeight } = link;
+            const x = (e.offsetX / offsetWidth) * 20 - 10; // 控制水平移动范围
+            const y = (e.offsetY / offsetHeight) * 20 - 10; // 控制垂直移动范围
+
+            // 使用 translate3d 来移动背景
+            const translateX = `${x}px`;
+            const translateY = `${y}px`;
+            link.querySelector('::before').style.transform = `translate3d(${translateX}, ${translateY}, 0)`;
+        });
+
+        link.addEventListener('mouseleave', () => {
+            link.querySelector('::before').style.transform = `translate3d(0, 0, 0)`; // 鼠标离开时重置位置
+        });
+    });
+});
+
 function checkOverlapAndHide() {
     const tocDiv = document.getElementById('toc');
     const contentDivs = document.getElementsByClassName('content');
