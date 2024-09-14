@@ -30,9 +30,7 @@ const app = Vue.createApp({
             //     cssrules[56].style.backgroundImage = `url(${skinimages[skinid]})`;
             // }
 
-            setTimeout(() => {
-                this.loading = false;
-            },600);
+            this.loading = false;
         });
     },
     mounted() {

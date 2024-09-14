@@ -935,7 +935,7 @@
     font: bold;
     font-size: 15px;
     line-height: 2;
-    overflow: hidden;
+    overflow-x: scroll;
     /* 隐藏溢出内容 */
     padding: 50px 30px 20px;
     transition: opacity 0.5s ease;
@@ -944,6 +944,7 @@
     /* 初始状态 */
     opacity: 1;
     /* 初始状态 */
+    white-space: pre;
 }
 
 .code-content.collapsed {
