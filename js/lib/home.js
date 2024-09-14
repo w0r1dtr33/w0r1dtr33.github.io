@@ -11,18 +11,18 @@ mixins.home = {
         let id_load = Math.floor(Math.random() * images_load.length);
         document.getElementById('loading-images1').src = `${images_load[id_load]}`;
 
-        let skin_load = this.$refs.skinbackground1;
-        let skinimages = skin_load.dataset.images.split(",");
+        // let skin_load = this.$refs.skinbackground1;
+        // let skinimages = skin_load.dataset.images.split(",");
         let cssrules = document.styleSheets[4].cssRules;
-        let skinIds = new Set();
-        let skinid;
-        do {
-            skinid = Math.floor(Math.random() * skinimages.length);
-        } while (skinIds.has(skinid));
-        skinIds.add(skinid);
-        if (skinid < skinimages.length) {
-            cssrules[56].style.backgroundImage = `url(${skinimages[skinid]})`;
-        }
+        // let skinIds = new Set();
+        // let skinid;
+        // do {
+        //     skinid = Math.floor(Math.random() * skinimages.length);
+        // } while (skinIds.has(skinid));
+        // skinIds.add(skinid);
+        // if (skinid < skinimages.length) {
+        //     cssrules[56].style.backgroundImage = `url(${skinimages[skinid]})`;
+        // }
 
         //home card
         let card_load = this.$refs.cardBackground;

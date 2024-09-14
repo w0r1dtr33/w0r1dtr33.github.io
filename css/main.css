@@ -396,10 +396,11 @@
 #loading {
     align-items: center;
     background: rgb(255, 255, 255);
+    background-image: url('../images/bg_dlc07_bg001_02.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    display: fixed;
+    display: flex; /* Change 'fixed' to 'flex' */
     flex-direction: column;
     height: 100vh;
     justify-content: center;
@@ -422,22 +423,18 @@
     border-radius: 50px;
     height: 200px;
     animation: rotate 10s linear infinite;
-    /* 添加旋转动画 */
     transform: rotate(-30deg);
-    /* 设置初始旋转角度为 45 度 */
 }
 
 @keyframes rotate {
     from {
         transform: rotate(-30deg);
-        /* 从 45 度开始旋转 */
     }
-
     to {
         transform: rotate(405deg);
-        /* 结束时旋转到 405 度（360 + 45）以保持平滑 */
     }
 }
+
 #loading-circle {
     align-items: center;
     border: 10px solid transparent;
@@ -449,9 +446,10 @@
     padding: 50px;
     text-align: center;
     width: 50vmin;
-    position: absolute; /* 添加绝对定位 */
-    bottom: -40px; /* 距离底部为 0 */
-    right: -40px; /* 距离左边为 0 */
+    position: absolute; /* Keep absolute positioning */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for the element's size */
 }
 
 #main {
