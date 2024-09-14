@@ -58,12 +58,12 @@ function checkOverlapAndHide() {
     const contentDivs = document.getElementsByClassName('content');
 
     if (!tocDiv) {
-        console.error('未找到目录 div');
+        console.log('未找到目录 div');
         return;
     }
 
     if (contentDivs.length === 0) {
-        console.error('未找到内容 div');
+        console.log('未找到内容 div');
         return;
     }
 
@@ -88,4 +88,17 @@ function background() {
     let id = Math.floor(Math.random() * images.length);
     document.body.style.backgroundImage = `url('${images[id]}')`;
 }
+function checkRoute() {
+    const path = window.location.pathname;
+    const specialElement = document.getElementById('menu');
+    
+    if (path === '/' || path === '/index.html') {
+        specialElement.style.display = 'block'; // 显示元素
+    } else {
+        specialElement.style.display = 'none'; // 隐藏元素
+    }
+}
+
+// 页面加载时检查路由
+window.onload = checkRoute;
 background()

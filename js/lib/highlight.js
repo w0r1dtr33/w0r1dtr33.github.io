@@ -22,7 +22,8 @@ mixins.highlight = {
                     highlighted = code;
                 }
                 i.innerHTML = `
-                    <div class="code-content hljs">${highlighted}</div>
+                    <div class="hljs code-content" id="code-content">${highlighted}</div>
+                    <button class="toggle-button" onclick=folder(this)>折叠</button>
                     <div class="language">${language}</div>
                     <div class="copycode">
                         <i class="fa-solid fa-copy fa-fw"></i>

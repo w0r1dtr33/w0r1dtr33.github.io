@@ -1,15 +1,21 @@
 #archives {
     margin: auto;
-    margin-top: 100px;
     padding: 20px;
 }
 
 #archives .categories-tags {
-    margin: auto;
+    position: relative;
+    /* 相对定位 */
+    display: flex;
+    /* 使用flexbox布局 */
+    flex-wrap: wrap;
+    /* 允许换行 */
+    justify-content: center;
+    /* 内容居中 */
     margin-bottom: 50px;
-    max-width: 900px;
-    text-align: center;
     width: 100%;
+    /* 确保宽度为100% */
+    overflow-y: hidden;
 }
 
 #archives .categories-tags span {
@@ -187,7 +193,6 @@
 }
 
 #home-head {
-
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -390,8 +395,11 @@
 
 #loading {
     align-items: center;
-    background: #fff;
-    display: flex;
+    background: rgb(255, 255, 255);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: fixed;
     flex-direction: column;
     height: 100vh;
     justify-content: center;
@@ -410,13 +418,29 @@
 }
 
 #loading img {
+    margin: 10px;
     border-radius: 50px;
     height: 200px;
+    animation: rotate 10s linear infinite;
+    /* 添加旋转动画 */
+    transform: rotate(-30deg);
+    /* 设置初始旋转角度为 45 度 */
 }
 
+@keyframes rotate {
+    from {
+        transform: rotate(-30deg);
+        /* 从 45 度开始旋转 */
+    }
+
+    to {
+        transform: rotate(405deg);
+        /* 结束时旋转到 405 度（360 + 45）以保持平滑 */
+    }
+}
 #loading-circle {
     align-items: center;
-    border: 10px solid #a3ddfb;
+    border: 10px solid transparent;
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -425,6 +449,9 @@
     padding: 50px;
     text-align: center;
     width: 50vmin;
+    position: absolute; /* 添加绝对定位 */
+    bottom: -40px; /* 距离底部为 0 */
+    right: -40px; /* 距离左边为 0 */
 }
 
 #main {
@@ -443,20 +470,23 @@
     z-index: 1004;
 } */
 #menu {
+    perspective: 500px;
     font-weight: bold;
     font-size: 30px;
-    /* 增加字体大小 */
+    /* 字体大小 */
     line-height: 70px;
-    /* 增加行高 */
-    display: flex; /* 使用 flex 布局 */
-    position: fixed; /* 或者使用 absolute */
+    /* 行高 */
+    display: flex;
+    /* 使用 flex 布局 */
+    position: fixed;
+    /* 固定定位 */
     top: 50%;
     /* 垂直居中 */
-    left: 54%;
+    left: 52%;
     /* 水平居中 */
     transform: translate(-50%, -50%);
     /* 调整位置以实现真正的居中 */
-    min-width: 200px;
+    min-width: 100px;
     /* 设置最小宽度 */
     width: auto;
     /* 可以根据内容自适应宽度 */
@@ -464,42 +494,261 @@
     /* 防止文本换行 */
     z-index: 1004;
 }
+
 #menu a {
-    width: 100px;
-    height: 250px;
+    width: 125px;
+    /* 固定宽度 */
+    height: 290px;
+    /* 固定高度 */
     padding: 30px;
+    /* 内边距 */
     color: #ffffff;
+    /* 字体颜色 */
     background-color: #fff5;
+    /* 背景颜色 */
     display: inline-block;
-    margin: 0 100px;
-    /* 设置左右间隔 */
+    /* 内联块 */
+    margin: 0 300;
+    /* 设置左右间隔为0 */
     margin-left: 5px;
+    /* 左边距 */
     position: relative;
     /* 使背景相对于链接的位置 */
     overflow: hidden;
     /* 隐藏超出部分 */
+    font-size: 20px;
+    /* 根据需要设置固定字体大小 */
 }
 
+.mid {
+    position: fixed;
+    /* 确保子元素定位相对 */
+    height: 100vh;
+    /* 设置容器高度为视口高度 */
+    overflow: hidden;
+    /* 隐藏溢出部分 */
+    top: 0;
+    /* 从顶部开始 */
+    left: 0;
+    /* 从左侧开始 */
+}
+
+.mid i {
+    position: fixed;
+    /* 固定定位 */
+    width: 500px;
+    /* 使用固定宽度 */
+    height: 300px;
+    /* 使用固定高度 */
+    background-image: url('../images/quan.png');
+    /* 设置背景图片 */
+    background-size: cover;
+    /* 背景图片覆盖整个元素 */
+    background-position: center;
+    /* 背景图片居中 */
+    display: flex;
+    /* 使用 flexbox 布局 */
+    justify-content: center;
+    /* 水平居中内容 */
+    align-items: center;
+    /* 垂直居中内容 */
+    pointer-events: none;
+    /* 禁用鼠标事件，以便与其他元素交互 */
+
+    /* 调整位置以向左上移动 */
+    top: calc(50% - 150px);
+    /* 向上移动一半的高度 */
+    left: calc(50% - 270px);
+    /* 向左移动一半的宽度 */
+    transform: translate(-50%, -50%);
+    /* 仍然保持元素的中心 */
+}
+
+.line {
+    position: relative;
+    bottom: 0;
+    /* 确保子元素定位相对 */
+    height: 100vh;
+    /* 设置容器高度为视口高度 */
+    overflow: hidden;
+    /* 隐藏溢出部分 */
+    z-index: 0;
+}
+
+.line>i:first-child {
+    position: fixed;
+    /* 固定定位，使其覆盖整个页面 */
+    top: 0;
+    /* 从顶部开始 */
+    left: 0;
+    /* 从左侧开始 */
+    width: 99vw;
+    /* 宽度为视口宽度 */
+    height: 100vh;
+    /* 高度为视口高度 */
+    background-image: url('../images/bg-line-black.png');
+    /* 设置背景图片 */
+    background-size: cover;
+    /* 背景图片覆盖整个元素 */
+    background-position: center;
+    /* 背景图片居中 */
+    display: flex;
+    /* 使用 flexbox 布局 */
+    justify-content: center;
+    /* 水平居中内容 */
+    align-items: center;
+    /* 垂直居中内容 */
+    pointer-events: none;
+    /* 禁用鼠标事件，以便与其他元素交互 */
+    opacity: 0.5;
+}
+
+.line>i:nth-child(2) {
+    position: fixed;
+    /* 固定定位，使其覆盖整个页面 */
+    top: 0;
+    /* 从顶部开始 */
+    left: 0;
+    /* 从左侧开始 */
+    width: 99vw;
+    /* 宽度为视口宽度 */
+    height: 100vh;
+    /* 高度为视口高度 */
+    background-image: url('../images/bg-line.png');
+    /* 设置背景图片 */
+    background-size: cover;
+    /* 背景图片覆盖整个元素 */
+    background-position: center;
+    /* 背景图片居中 */
+    display: flex;
+    /* 使用 flexbox 布局 */
+    justify-content: center;
+    /* 水平居中内容 */
+    align-items: center;
+    /* 垂直居中内容 */
+    pointer-events: none;
+    /* 禁用鼠标事件，以便与其他元素交互 */
+    opacity: 0.5;
+}
+.shadow {
+    margin: 50px;
+}
 .parallax-item {
     position: relative;
     /* 使背景相对于链接的位置 */
-    margin: 20px;
+    margin: 50px;
     display: inline-block;
-    transition: transform 0.1s ease;
+    transition: opacity 0.5s ease, transform 0.1s ease; /* 添加多个过渡效果 */
     /* 增加过渡时间 */
+    z-index: 0;
+    border-radius: 10px;
+}
+.parallax-item.dimmed {
+    opacity: 0.5; /* 变暗效果 */
+}
+.anti-parallax-item {
+    position: relative;
+    margin: 50px;
+    display: inline-block;
+    transition: transform 0.05s ease;
+    z-index: 0;
+    border-radius: 10px;
+    overflow: hidden; /* 确保伪元素不会超出边界 */
 }
 
-#menu #mobile-menu {
+.anti-parallax-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(5px); /* 设置模糊效果 */
+    z-index: 1; /* 放置在内容后面 */
+    border-radius: 10px; /* 保持与主元素一致的圆角 */
+}
+
+.box1 {
+    background-size: 450%;
+    /* 使背景图像覆盖整个元素 */
+    background-position: 75%;
+    /* 居中背景图像 */
+    background-repeat: no-repeat;
+    /* 不重复背景图像 */
+    width: 100%;
+    /* 根据需要设置宽度 */
+    height: 100vh;
+    /* 高度设置为视口高度 */
+}
+
+.box2 {
+    background-size: 450%;
+    /* 使背景图像覆盖整个元素 */
+    background-position: 75%;
+    /* 居中背景图像 */
+    background-repeat: no-repeat;
+    /* 不重复背景图像 */
+    width: 100%;
+    /* 根据需要设置宽度 */
+    height: 100vh;
+    /* 高度设置为视口高度 */
+}
+
+.box3 {
+    background-size: 450%;
+    /* 使背景图像覆盖整个元素 */
+    background-position: 75%;
+    /* 居中背景图像 */
+    background-repeat: no-repeat;
+    /* 不重复背景图像 */
+    width: 100%;
+    /* 根据需要设置宽度 */
+    height: 100vh;
+    /* 高度设置为视口高度 */
+}
+
+.box4 {
+    background-size: 450%;
+    /* 使背景图像覆盖整个元素 */
+    background-position: 75%;
+    /* 居中背景图像 */
+    background-repeat: no-repeat;
+    /* 不重复背景图像 */
+    width: 100%;
+    /* 根据需要设置宽度 */
+    height: 100vh;
+    /* 高度设置为视口高度 */
+}
+
+.box5 {
+    background-size: 450%;
+    /* 使背景图像覆盖整个元素 */
+    background-position: 75%;
+    /* 居中背景图像 */
+    background-repeat: no-repeat;
+    /* 不重复背景图像 */
+    width: 100%;
+    /* 根据需要设置宽度 */
+    height: 100vh;
+    /* 高度设置为视口高度 */
+}
+
+#mobile-menu {
+    display: fixed;
+    position: relative;
     min-height: 50px;
     text-align: center;
 }
 
-#menu #mobile-menu .items {
+#mobile-menu .items {
+    display: flex;
+    /* 确保使用 flex 布局 */
+    flex-direction: column;
     padding: 10px 0 20px;
     z-index: 1002;
 }
 
-#menu #mobile-menu .items .item {
+#mobile-menu .items .item {
     display: flex;
     justify-content: center;
     margin: auto;
@@ -507,11 +756,11 @@
     width: 80%;
 }
 
-#menu #mobile-menu .items a {
+#mobile-menu .items a {
     color: #3057DA;
 }
 
-#menu #mobile-menu .title {
+#mobile-menu .title {
     background: #fff5;
     color: #3057DA;
     cursor: pointer;
@@ -521,7 +770,7 @@
 }
 
 #menu-curtain {
-    background: rgba(184, 201, 255, 0.5);
+    background: #fff5;
     /* 设定蓝色背景和透明度 */
     height: 100%;
     left: 0;
@@ -539,8 +788,8 @@
     background: #0003;
 }
 
-#menu.menu-color #mobile-menu a,
-#menu.menu-color #mobile-menu .title {
+#mobile-menu a,
+#mobile-menu .title {
     color: #fff;
 }
 
@@ -565,12 +814,16 @@
 }
 
 #search-bar {
+    display: none;
     margin-bottom: 50px;
     z-index: 1000;
 }
 
 #timeline-wrap {
     display: flex;
+    overflow-y: auto;
+    /* 允许垂直滚动 */
+    position: flex;
     flex-direction: column-reverse;
 }
 
@@ -583,30 +836,124 @@
     word-wrap: break-word;
 }
 
+.back {
+    position: fixed;
+    /* 固定定位 */
+    right: 50px;
+    /* 距离右边50像素 */
+    top: 20px;
+    /* 距离顶部20像素 */
+    padding: 0px 40px;
+    /* 调整内边距，变小 */
+    font-size: 18px;
+    /* 调整字体大小 */
+    background-image: url('../images/close.png');
+    background-repeat: no-repeat;
+    /* 不重复背景图像 */
+    background-position: 20px;
+    background-size: 1.4em;
+    user-select: none;
+    color: #3057DA;
+    border-radius: 10px;
+    /* 圆角 */
+    cursor: pointer;
+    /* 鼠标悬停时显示为手型 */
+    width: 70px;
+    /* 设置宽度，形成长方形 */
+    text-align: center;
+    /* 文本居中 */
+    transition: background-size 0.4s ease, background-position 0.4s ease;
+    /* 添加过渡效果，持续时间增加 */
+}
+
+.back:hover {
+    background-position: 10px center;
+    /* 背景向左移动 */
+    background-size: 1.6em;
+    /* 放大背景图像 */
+}
+
+.back2 {
+    position: fixed;
+    /* 固定定位 */
+    left: 50px;
+    /* 距离左边50像素 */
+    top: 20px;
+    /* 距离顶部20像素 */
+    padding: 0px 20px;
+    /* 调整内边距，变小 */
+    font-size: 18px;
+    /* 调整字体大小 */
+    background-repeat: no-repeat;
+    /* 不重复背景图像 */
+    background-position: left center;
+    /* 背景图像左侧居中 */
+    background-size: 1.4em;
+    user-select: none;
+    color: #3057DA;
+    border-radius: 10px;
+    /* 圆角 */
+    cursor: pointer;
+    /* 鼠标悬停时显示为手型 */
+    width: 70px;
+    /* 设置宽度，形成长方形 */
+    text-align: center;
+    /* 文本居中 */
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 30%, rgba(255, 255, 255, 0.5) 70%, rgba(255, 255, 255, 0) 100%);
+    transition: transform 0.3s ease;
+    /* 添加过渡效果 */
+}
+
+.back2:hover {
+    transform: scale(1.1);
+    /* 悬停时整体放大 */
+}
+
 .article {
-    background-color: #fff5;
-    font-size: 15px;
-    margin: auto;
-    margin-top: 100px;
-    padding: 20px;
+    background-color: #fff8;
+    font-size: 20px;
+    /* 字体大小 */
+    margin-top: 20px;
+    /* 上边距 */
+    padding: 50px;
+    /* 内边距 */
+    border-radius: 10px;
 }
 
 .article .content {
-    margin: 50px 0;
+    margin: 30px 0;
+    /* 上下边距 */
 }
 
 .article .info .date {
-    color: #3057DA;
+    color: #5c6b72;
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 5px;
+    /* 右边距 */
 }
 
 .code-content {
-    font-size: 13px;
+    background-color: #fff5;
+    font: bold;
+    font-size: 15px;
     line-height: 2;
-    overflow: auto;
+    overflow: hidden;
+    /* 隐藏溢出内容 */
     padding: 50px 30px 20px;
-    white-space: pre;
+    transition: opacity 0.5s ease;
+    /* 添加过渡效果 */
+    transform: scaleY(1);
+    /* 初始状态 */
+    opacity: 1;
+    /* 初始状态 */
+}
+
+.code-content.collapsed {
+    transform: scaleY(0);
+    /* 收起时缩放为0 */
+    opacity: 0;
+    /* 收起时透明度为0 */
+    max-height: 0;
 }
 
 .comment iframe,
@@ -615,6 +962,7 @@ body::-webkit-scrollbar-track {
 }
 
 .content {
+    overflow: hidden;
     transition: opacity 0.25s;
 }
 
@@ -662,12 +1010,15 @@ body::-webkit-scrollbar-track {
 }
 
 .hljs-ln-code {
+    font: bold;
+    padding-top: 15px !important;
     padding-left: 20px !important;
 }
 
 .hljs-ln-numbers {
-    border-right: 1px solid #ccc;
-    color: #ccc;
+    font: bold;
+    border-right: 1px solid rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
     padding-right: 10px !important;
     text-align: right;
     vertical-align: top;
@@ -727,6 +1078,20 @@ body::-webkit-scrollbar-track {
     padding: 10px 15px;
     position: absolute;
     top: 0;
+}
+
+.toggle-button {
+    background: linear-gradient(to right, #ed6ea0 0%, #ec8c69 100%);
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 15px;
+    position: absolute;
+    top: 0;
+    right: 50px;
+    cursor: pointer;
+    border: none;
 }
 
 .page-num,
@@ -859,6 +1224,7 @@ blockquote {
     width: 100%;
 } */
 body {
+    background-color: #fff5;
     background-position: center;
     /* 背景图居中 */
     background-repeat: no-repeat;
@@ -867,11 +1233,15 @@ body {
     /* 背景图覆盖整个页面 */
     background-attachment: fixed;
     /* 背景图固定 */
-    height: 100vh;
+    height: auto;
     /* 设置 body 高度为视口高度 */
     margin: 0;
     /* 去掉默认的 margin */
-    overflow: hidden;
+    padding: 0;
+    overflow-y: auto;
+    /* 允许垂直滚动 */
+    overflow-x: hidden;
+    /* 允许垂直滚动 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -954,6 +1324,28 @@ pre {
     margin: 25px 0;
     overflow: hidden;
     white-space: normal;
+}
+
+@font-face {
+    font-family: 'snowbreak';
+    /* 字体名称 */
+    src: url('../font/Project_Snow_Titan_Font.ttf') format('truetype');
+    /* 字体文件路径 */
+    font-weight: normal;
+    /* 字体粗细 */
+    font-style: normal;
+    /* 字体样式 */
+}
+
+@font-face {
+    font-family: 'snowbreak2';
+    /* 字体名称 */
+    src: url('../font/GmarketSansTTFLight.ttf') format('truetype');
+    /* 字体文件路径 */
+    font-weight: normal;
+    /* 字体粗细 */
+    font-style: normal;
+    /* 字体样式 */
 }
 
 pre,
@@ -1086,8 +1478,7 @@ ol li {
         max-width: 1200px;
     }
 
-
-    #menu #mobile-menu {
+    #mobile-menu {
         display: none;
     }
 
@@ -1122,7 +1513,7 @@ ol li {
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     #home-head #home-info {
         height: 350px;
         width: 350px;
@@ -1189,11 +1580,13 @@ ol li {
         width: 100%;
     }
 
+    #menu,
+    #line,
     #home-card {
         display: none;
     }
 
-    #menu #mobile-menu {
+    #mobile-menu {
         display: block;
     }
 
@@ -1205,16 +1598,20 @@ ol li {
 
 #toc {
     position: fixed;
-    left: 0;
-    top: 100px;
+    left: -25px;
+    top: 50px;
+    font-size: 15px;
     width: auto;
-    max-height: 100%;
-    overflow-y: auto;
+    max-height: 80%;
+    overflow-y: scroll;
     overflow-x: auto;
-    padding-left: 8px;
-    padding-right: 20px;
-    background-color: #fff5;
+    padding-left: 20px;
+    padding-right: 10px;
     border-radius: 10px;
+}
+
+#toc ol.toc {
+    background-color: #fff5;
 }
 
 #toc a.toc-link {

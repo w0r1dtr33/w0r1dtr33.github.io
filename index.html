@@ -1,18 +1,18 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>d1e4f1ag&#39;s land</title>
-    <meta name="author" content="d1e4f1ag" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=0.8, maximum-scale=1.0, user-scalable=0"
-    />
-    <link rel="icon" href="/images/avatar2.png" />
-    <link rel="preconnect" href="https://s4.zstatic.net" />
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            d1e4f1ag&#39;s land
+        </title>
+        <meta name="author" content="d1e4f1ag" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/images/avatar2.png" />
+        <link rel="preconnect" href="https://s4.zstatic.net" />
 <script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
 <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 <link rel="preconnect" href="https://fonts.googleapis.cn" />
@@ -45,45 +45,85 @@
 <script src="/js/lib/home.js"></script>
 
 <link rel="stylesheet" href="/css/main.css" />
+    <meta name="generator" content="Hexo 7.2.0"></head>
 
-<meta name="generator" content="Hexo 7.2.0"></head>
-<body>
-    <div id="layout">
-        <transition name="fade">
-            <div id="loading" v-show="loading">
-                <div id="loading-circle">
-                    <h2>LOADING</h2>
-                    <p>加载过慢请开启缓存 浏览器默认开启</p>
-                    <img src="/images/640.gif" />
+    <body>
+        <div class="line" id="line">
+            <i class="parallax-line"></i>
+            <i class="parallax-line"></i>
+        </div>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <img id="loading-images2" />
+                    </div>
                 </div>
+            </transition>
+            
+                <body>
+    <div id="menu" class="shadow">
+        
+            <a href="/archives" class="anti-parallax-item box1">
+            </a>
+        
+            <a href="/categories" class="anti-parallax-item box2">
+            </a>
+        
+            <a href="/" class="anti-parallax-item box3">
+            </a>
+        
+            <a href="/tags" class="anti-parallax-item box4">
+            </a>
+        
+            <a href="/link" class="anti-parallax-item box5">
+            </a>
+        
+    </div>
+    <div id="menu">
+        
+            <a href="/archives" class="parallax-item box1">
+                <i class="fa-solid fa-box-archive fa-fw"></i>
+                <span>&ensp;Archives</span>
+            </a>
+            <div class="mid">
+                <i class="parallax-mid"></i>
             </div>
-        </transition>
-        <div id="menu">
-        <!-- <a class="title" href="/">
-            <span>D1E4F1AG&#39;S LAND</span>
-        </a> -->
         
-        <a href="/archives" class="parallax-item box1">
-            <i class="fa-solid fa-box-archive fa-fw"></i>
-        </a>
+            <a href="/categories" class="parallax-item box2">
+                <i class="fa-solid fa-bookmark fa-fw"></i>
+                <span>&ensp;Categories</span>
+            </a>
+            <div class="mid">
+                <i class="parallax-mid"></i>
+            </div>
         
-        <a href="/categories" class="parallax-item box2">
-            <i class="fa-solid fa-bookmark fa-fw"></i>
-        </a>
+            <a href="/" class="parallax-item box3">
+                <i class="fa-solid fa-house fa-fw"></i>
+                <span>&ensp;Home</span>
+            </a>
+            <div class="mid">
+                <i class="parallax-mid"></i>
+            </div>
         
-        <a href="/" class="parallax-item box3">
-            <i class="fa-solid fa-house fa-fw"></i>
-        </a>
+            <a href="/tags" class="parallax-item box4">
+                <i class="fa-solid fa-tags fa-fw"></i>
+                <span>&ensp;Tags</span>
+            </a>
+            <div class="mid">
+                <i class="parallax-mid"></i>
+            </div>
         
-        <a href="/tags" class="parallax-item box4">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </a>
+            <a href="/link" class="parallax-item box5">
+                <i class="fa-solid fa-id-card fa-fw"></i>
+                <span>&ensp;Link</span>
+            </a>
+            <div class="mid">
+                <i class="parallax-mid"></i>
+            </div>
         
-        <a href="/link" class="parallax-item box5">
-            <i class="fa-solid fa-id-card fa-fw"></i>
-        </a>
-        
-    <nav id="mobile-menu">
+    </div>
+    <div id="mobile-menu">
         <div class="title" @click="showMenuItems = !showMenuItems">
             <i class="fa-solid fa-bars fa-fw"></i>
             <span>&emsp;D1E4F1AG&#39;S LAND</span>
@@ -91,411 +131,127 @@
         <transition name="slide">
             <div class="items" v-show="showMenuItems">
                 
-                <a href="/archives">
-                    <div class="item">
-                        <div style="min-width: 20px; max-width: 50px; width: 10%">
-                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                    <a href="/archives">
+                        <div class="item">
+                            <div style="min-width: 20px; max-width: 50px; width: 10%">
+                                <i class="fa-solid fa-box-archive fa-fw"></i>
+                            </div>
+                            <div style="min-width: 100px; max-width: 150%; width: 20%">
+                                Archives
+                            </div>
                         </div>
-                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
-                    </div>
-                </a>
+                    </a>
                 
-                <a href="/categories">
-                    <div class="item">
-                        <div style="min-width: 20px; max-width: 50px; width: 10%">
-                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                    <a href="/categories">
+                        <div class="item">
+                            <div style="min-width: 20px; max-width: 50px; width: 10%">
+                                <i class="fa-solid fa-bookmark fa-fw"></i>
+                            </div>
+                            <div style="min-width: 100px; max-width: 150%; width: 20%">
+                                Categories
+                            </div>
                         </div>
-                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
-                    </div>
-                </a>
+                    </a>
                 
-                <a href="/">
-                    <div class="item">
-                        <div style="min-width: 20px; max-width: 50px; width: 10%">
-                            <i class="fa-solid fa-house fa-fw"></i>
+                    <a href="/">
+                        <div class="item">
+                            <div style="min-width: 20px; max-width: 50px; width: 10%">
+                                <i class="fa-solid fa-house fa-fw"></i>
+                            </div>
+                            <div style="min-width: 100px; max-width: 150%; width: 20%">
+                                Home
+                            </div>
                         </div>
-                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
-                    </div>
-                </a>
+                    </a>
                 
-                <a href="/tags">
-                    <div class="item">
-                        <div style="min-width: 20px; max-width: 50px; width: 10%">
-                            <i class="fa-solid fa-tags fa-fw"></i>
+                    <a href="/tags">
+                        <div class="item">
+                            <div style="min-width: 20px; max-width: 50px; width: 10%">
+                                <i class="fa-solid fa-tags fa-fw"></i>
+                            </div>
+                            <div style="min-width: 100px; max-width: 150%; width: 20%">
+                                Tags
+                            </div>
                         </div>
-                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
-                    </div>
-                </a>
+                    </a>
                 
-                <a href="/link">
-                    <div class="item">
-                        <div style="min-width: 20px; max-width: 50px; width: 10%">
-                            <i class="fa-solid fa-id-card fa-fw"></i>
+                    <a href="/link">
+                        <div class="item">
+                            <div style="min-width: 20px; max-width: 50px; width: 10%">
+                                <i class="fa-solid fa-id-card fa-fw"></i>
+                            </div>
+                            <div style="min-width: 100px; max-width: 150%; width: 20%">
+                                Link
+                            </div>
                         </div>
-                        <div style="min-width: 100px; max-width: 150%; width: 20%">Link</div>
-                    </div>
-                </a>
+                    </a>
                 
             </div>
         </transition>
-    </nav>
-</div>
-<script src="/js/parallax.js"></script>
+    </div>
+    <script src="/js/parallax.js"></script>
+    <transition name="fade">
+        <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+    </transition>
+    <div
+        id="card-background"
+        ref="cardBackground"
+        data-images="/images/card/pic_playerbg001.png,/images/card/pic_playerbg002.png,/images/card/pic_playerbg003.png,/images/card/pic_playerbg004.png,/images/card/pic_playerbg005.png,/images/card/pic_playerbg006.png,/images/card/pic_playerbg007.png,/images/card/pic_playerbg008.png,/images/card/pic_playerbg009.png,/images/card/pic_playerbg010.png,/images/card/pic_playerbg021.png,/images/card/pic_playerbg022.png,/images/card/pic_playerbg023.png,/images/card/pic_playerbg024.png,/images/card/pic_playerbg025.png,/images/card/pic_playerbg027.png,/images/card/pic_playerbg028.png,/images/card/pic_playerbg029.png,/images/card/pic_playerbg030.png,/images/card/pic_playerbg037.png,/images/card/pic_playerbg038.png,/images/card/pic_playerbg039.png,/images/card/pic_playerbg040.png,/images/card/pic_playerbg041.png"
+        style="visibility: hidden;"
+    ></div>
+</body>
+                    
+                <div class="container">
+                    
 <transition name="fade">
-    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+    <div id="loading" v-show="loading">
+        <div id="loading-circle">
+            <img id="loading-images1" />
+        </div>
+    </div>
 </transition>
-
-        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="home-head">
+<div>
     <div
         id="home-background"
         ref="homeBackground"
-        data-images="/images/20230609024433150.jpg,/images/20230609024549286.jpg,/images/20231106082814394.jpg,/images/20231106083123603.jpg,/images/20231106083152400.jpg,/images/20231106083340387.jpg,/images/20231106083421728.jpg"
+        data-images="/images/background/pic_bg025.png,/images/background/pic_dlc09_01_25.png,/images/background/pic_dlc10_01_07.png,/images/background/pic_loading_bg006.png,/images/background/pic_loading_bg007.png,/images/background/pic_loading_bg012.png,/images/background/pic_loading_bg013.png,/images/background/pic_loading_bg014.png,/images/background/pic_loading_bg015.png,/images/background/pic_loading_bg016.png,/images/background/pic_loading_bg017.png,/images/background/pic_loading_bg018.png,/images/background/pic_loading_bg026.png,/images/background/pic_loading_bg029.png,/images/background/pic_loading_bg030.png,/images/background/pic_loading_bg031.png,/images/background/pic_login_dlc01_01.png,/images/background/pic_login_dlc02_01.png,/images/background/pic_login_dlc03_01.png,/images/background/pic_login_dlc04_01.png,/images/background/pic_login_dlc05_01.png,/images/background/pic_login_dlc06_01.png,/images/background/pic_login_dlc07_01.png,/images/background/pic_login_dlc08_01.png,/images/background/pic_login_dlc09_01.png,/images/background/pic_login_dlc10_01.png,/images/background/PlotCG_007.png,/images/background/PlotCG_011.png,/images/background/PlotCG_012.png,/images/background/PlotCG_014.png,/images/background/PlotCG_015.png,/images/background/PlotCG_016.png,/images/background/PlotCG_017.png,/images/background/PlotCG_018.png,/images/background/PlotCG_021.png,/images/background/PlotCG_022.png,/images/background/PlotCG_023.png,/images/background/PlotCG_025.png,/images/background/PlotCG_026.png,/images/background/PlotCG_029.png,/images/background/PlotCG_035.png,/images/background/PlotCG_058.png,/images/background/PlotCG_063.png,/images/background/PlotCG_064_1.png,/images/background/PlotCG_064_2.png,/images/background/PlotCG_064_3.png,/images/background/PlotCG_064_4.png,/images/background/PlotCG_065_1.png,/images/background/PlotCG_065_2.png,/images/background/PlotCG_067.png,/images/background/PlotCG_069_2.png,/images/background/PlotCG_070_2.png,/images/background/PlotCG_071_1.png,/images/background/PlotCG_072_1.png,/images/background/PlotCG_072_2.png,/images/background/PlotCG_073_1.png,/images/background/PlotCG_076.png,/images/background/PlotCG_104.png,/images/background/PlotCG_111.png,/images/background/PlotCG_112.png,/images/background/PlotCG_113.png,/images/background/PlotCG_114.png,/images/background/PlotCG_115.png,/images/background/PlotCG_115_1.png,/images/background/PlotCG_116.png,/images/background/PlotCG_117.png,/images/background/PlotCG_117_1.png,/images/background/PlotCG_118.png,/images/background/PlotCG_118_2.png,/images/background/PlotCG_119.png,/images/background/PlotCG_120.png,/images/background/PlotCG_121.png,/images/background/PlotCG_122.png,/images/background/PlotCG_123.png,/images/background/PlotCG_124_6.png,/images/background/PlotCG_125_1.png,/images/background/PlotCG_125_2.png,/images/background/PlotCG_126.png,/images/background/PlotCG_127.png,/images/background/PlotCG_127_1.png,/images/background/PlotCG_128_1.png,/images/background/PlotCG_128_2.png,/images/background/PlotCG_129.png,/images/background/PlotCG_417.png,/images/background/PlotCG_418_4.png,/images/background/PlotCG_419.png,/images/background/PlotCG_702.png,/images/background/PlotCG_704.png,/images/background/PlotCG_705.png,/images/background/PlotCG_706.png,/images/background/PlotCG_707.png,/images/background/PlotCG_708.png,/images/background/PlotCG_710.png,/images/background/PlotCG_712.png,/images/background/PlotCG_713.png,/images/background/PlotCG_714.png,/images/background/PlotCG_717_1.png,/images/background/PlotCG_717_3.png,/images/background/PlotCG_718.png,/images/background/PlotCG_719.png,/images/background/PlotCG_720_1.png,/images/background/PlotCG_720_2.png,/images/background/PlotCG_720_3.png,/images/background/PlotCG_721_1.png,/images/background/PlotCG_721_2.png,/images/background/Plot_CG_077.png,/images/background/Plot_CG_078.png,/images/background/Plot_CG_079_1.png,/images/background/Plot_CG_080.png,/images/background/Plot_CG_081_1.png,/images/background/Plot_CG_081_2.png,/images/background/Plot_CG_130_1.png,/images/background/Plot_CG_130_2.png,/images/background/Plot_CG_130_3.png"
         style="visibility: hidden;"
     ></div>
-    <div id="home-info" @click="homeClick" style="visibility: hidden;">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>d1e4f1ag&#39;s land</h1>
-                <h3></h3>
-                <h5></h5>
-            </div>
-        </span>
-    </div>
+    <div
+        id="index-background"
+        ref="indexBackground"
+        data-images="/images/home/icon_main_bg001_1080.png,/images/home/icon_main_bg002_1080.png,/images/home/icon_main_bg003_1080.png"
+        style="visibility: hidden;"
+    ></div>
+    <div
+        id="loading_images1"
+        ref="loading_images1"
+        data-images="/images/cd/pic_rikibgm01_001.png,/images/cd/pic_rikibgm01_002.png,/images/cd/pic_rikibgm01_003.png,/images/cd/pic_rikibgm01_004.png,/images/cd/pic_rikibgm01_005.png,/images/cd/pic_rikibgm01_006.png,/images/cd/pic_rikibgm01_007.png,/images/cd/pic_rikibgm01_008.png,/images/cd/pic_rikibgm01_009.png,/images/cd/pic_rikibgm01_010.png,/images/cd/pic_rikibgm01_011.png"
+        style="visibility: hidden;"
+    ></div>
+    <div
+        id="skin-background1"
+        ref="skinbackground1"
+        data-images="/images/skin/others/icon_girl001a_fashion02_1784.png,/images/skin/others/icon_girl002a_fashion01_1784.png,/images/skin/others/icon_girl002a_fashion02_1784.png,/images/skin/others/icon_girl002a_fashion03_1784.png,/images/skin/others/icon_girl002b_fashion02_1784.png,/images/skin/others/icon_girl002_fashion02_1784.png,/images/skin/others/icon_girl004a_fashion01_1784.png,/images/skin/others/icon_girl004a_fashion02_1784.png,/images/skin/others/icon_girl005a_fashion01_1784.png,/images/skin/others/icon_girl005a_fashion02_1784.png,/images/skin/others/icon_girl006a_fashion01_1784.png,/images/skin/others/icon_girl007a_fashion01_1784.png,/images/skin/others/icon_girl008a_fashion01_1784.png,/images/skin/others/icon_girl008a_fashion02_1784.png,/images/skin/others/icon_girl008a_fashion03_1784.png,/images/skin/others/icon_girl008a_fashion04_1784.png,/images/skin/others/icon_girl008b_fashion02_1784.png,/images/skin/others/icon_girl008_fashion02_1784.png,/images/skin/others/icon_girl010a_fashion01_1784.png,/images/skin/others/icon_girl010a_fashion02_1784.png,/images/skin/others/icon_girl010_fashion01_1784.png,/images/skin/others/icon_girl010_fashion02_1784.png,/images/skin/others/icon_girl011a_fashion01_1784.png,/images/skin/others/icon_girl011_fashion01_1784.png,/images/skin/others/icon_girl012a_fashion01_1784.png,/images/skin/others/icon_girl013a_fashion02_1784.png,/images/skin/others/icon_girl014a_fashion01_1784.png,/images/skin/others/icon_girl014a_fashion02_1784.png,/images/skin/others/icon_girl014a_fashion03_1784.png,/images/skin/others/icon_girl015_fashion01_1784.png,/images/skin/others/icon_girl015_fashion05_1784.png,/images/skin/others/icon_girl016_fashion01_1784.png,/images/skin/others/icon_girl016_fashion02_1784.png,/images/skin/others/icon_girl017_fashion01_1784.png,/images/skin/others/icon_girl017_fashion02_1784.png,/images/skin/others/icon_girl018_fashion02_1784.png"
+        style="visibility: hidden;"
+    ></div>
 </div>
-<div
-    id="home-posts-wrap"
-    ref="homePostsWrap"
-    true
->
-    <div id="home-posts">
-        
 
-<div class="post">
-    <a href="/2024/09/03/springboot/">
-        <h2 class="post-title">springboot</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/9/3
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>asegikbaekfhalifweh</p>
-            
+                </div>
+                
+                    <transition name="fade">
+                        <div id="preview" ref="preview" v-show="previewShow">
+                            <img id="preview-content" ref="previewContent" />
+                        </div>
+                    </transition>
+                    
         </div>
-    </div>
-    <div class="post-tags">
+        <div id="loading_images2" ref="loading_images2" data-images="/images/cd/pic_rikibgm01_001.png,/images/cd/pic_rikibgm01_002.png,/images/cd/pic_rikibgm01_003.png,/images/cd/pic_rikibgm01_004.png,/images/cd/pic_rikibgm01_005.png,/images/cd/pic_rikibgm01_006.png,/images/cd/pic_rikibgm01_007.png,/images/cd/pic_rikibgm01_008.png,/images/cd/pic_rikibgm01_009.png,/images/cd/pic_rikibgm01_010.png,/images/cd/pic_rikibgm01_011.png"
+            style="visibility: hidden;"></div>
+        <div id="skin-background2" ref="skinbackground2" data-images="/images/skin/others/icon_girl001a_fashion02_1784.png,/images/skin/others/icon_girl002a_fashion01_1784.png,/images/skin/others/icon_girl002a_fashion02_1784.png,/images/skin/others/icon_girl002a_fashion03_1784.png,/images/skin/others/icon_girl002b_fashion02_1784.png,/images/skin/others/icon_girl002_fashion02_1784.png,/images/skin/others/icon_girl004a_fashion01_1784.png,/images/skin/others/icon_girl004a_fashion02_1784.png,/images/skin/others/icon_girl005a_fashion01_1784.png,/images/skin/others/icon_girl005a_fashion02_1784.png,/images/skin/others/icon_girl006a_fashion01_1784.png,/images/skin/others/icon_girl007a_fashion01_1784.png,/images/skin/others/icon_girl008a_fashion01_1784.png,/images/skin/others/icon_girl008a_fashion02_1784.png,/images/skin/others/icon_girl008a_fashion03_1784.png,/images/skin/others/icon_girl008a_fashion04_1784.png,/images/skin/others/icon_girl008b_fashion02_1784.png,/images/skin/others/icon_girl008_fashion02_1784.png,/images/skin/others/icon_girl010a_fashion01_1784.png,/images/skin/others/icon_girl010a_fashion02_1784.png,/images/skin/others/icon_girl010_fashion01_1784.png,/images/skin/others/icon_girl010_fashion02_1784.png,/images/skin/others/icon_girl011a_fashion01_1784.png,/images/skin/others/icon_girl011_fashion01_1784.png,/images/skin/others/icon_girl012a_fashion01_1784.png,/images/skin/others/icon_girl013a_fashion02_1784.png,/images/skin/others/icon_girl014a_fashion01_1784.png,/images/skin/others/icon_girl014a_fashion02_1784.png,/images/skin/others/icon_girl014a_fashion03_1784.png,/images/skin/others/icon_girl015_fashion01_1784.png,/images/skin/others/icon_girl015_fashion05_1784.png,/images/skin/others/icon_girl016_fashion01_1784.png,/images/skin/others/icon_girl016_fashion02_1784.png,/images/skin/others/icon_girl017_fashion01_1784.png,/images/skin/others/icon_girl017_fashion02_1784.png,/images/skin/others/icon_girl018_fashion02_1784.png"
+            style="visibility: hidden;"></div>
+        <script src="/js/main.js"></script>
         
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/09/03/springboot/" class="go-post">阅读全文</a>
-</div>
+    </body>
 
-<div class="post">
-    <a href="/2024/06/02/Iconv%E5%AE%9E%E7%8E%B0PHP%E5%BC%95%E6%93%8ERCE/">
-        <h2 class="post-title">Iconv实现PHP引擎RCE</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/6/2
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>CVE-2024-2961 Iconv 实现PHP引擎 RCE</p>
-<p>需要被攻击系统glibc版本更新时间在2024&#x2F;4&#x2F;17之前</p>
-<p>php版本在7.0.0-8.3.7，且支持任何PHP任何应用程序，例如wordpress等</p>
-<p>基本不会造成程序崩溃</p>
-<p>需要支持data伪协议，filter伪协议，支持filter中zlib.inflate过滤器及这三个方法的任意文件读取权限</p>
-<p>有效载荷小于1000字节，优化空间很小</p>
-<p>不需要发送其他额外的参数</p>
-<p>PHP的每个标准<em>文件读取</em>接收器都受到影响：<code>file_get_contents()</code>、<code>file()</code>、<code>readfile()</code>、<code>fgets()</code>、<code>getimagesize()</code>、<code>SplFileObject-&gt;read()</code>等。文件写入也受到影响（<code>file_put_contents()</code>及其同类）</p>
-<p>原文：<a target="_blank" rel="noopener" href="https://www.ambionics.io/blog/iconv-cve-2024-2961-p1">https://www.ambionics.io/blog/iconv-cve-2024-2961-p1</a></p>
-<p>exp：<a target="_blank" rel="noopener" href="https://github.com/ambionics/cnext-exploits">https://github.com/ambionics/cnext-exploits</a></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #00bcd4">知识点</a>
-        </span>
-        
-    </div>
-    <a href="/2024/06/02/Iconv%E5%AE%9E%E7%8E%B0PHP%E5%BC%95%E6%93%8ERCE/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/06/02/awdp%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93(php%E7%AF%87)/">
-        <h2 class="post-title">awdp知识点总结</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/6/2
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>PHP + JS知识点总结收录</p>
-<p>来源：</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44604541/article/details/110149949">https://blog.csdn.net/weixin_44604541/article/details/110149949</a></p>
-<p><a target="_blank" rel="noopener" href="https://fushuling.com/index.php/2023/06/01/awd/">https://fushuling.com/index.php/2023/06/01/awd/</a></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #00bcd4">知识点</a>
-        </span>
-        
-    </div>
-    <a href="/2024/06/02/awdp%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93(php%E7%AF%87)/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/06/01/D3CTF2024/">
-        <h2 class="post-title">D3CTF2024</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/6/1
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>vm.runInNewContext沙箱逃逸</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%A4%8D%E7%8E%B0/" style="color: #00a596">复现</a>
-        </span>
-        
-    </div>
-    <a href="/2024/06/01/D3CTF2024/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/05/31/SQL%E6%B3%A8%E5%85%A5%E7%9B%B8%E5%85%B3/">
-        <h2 class="post-title">SQL注入相关</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/5/31
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>REGEXP注入</p>
-<p>LIKE注入</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #00a596">知识点</a>
-        </span>
-        
-    </div>
-    <a href="/2024/05/31/SQL%E6%B3%A8%E5%85%A5%E7%9B%B8%E5%85%B3/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/05/31/RCTF2024/">
-        <h2 class="post-title">RCTF2024</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/5/31
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>REGEXP注入</p>
-<p>当时没打，环境没了，复现不太动。。。</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%A4%8D%E7%8E%B0/" style="color: #03a9f4">复现</a>
-        </span>
-        
-    </div>
-    <a href="/2024/05/31/RCTF2024/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/05/30/hello-world/">
-        <h2 class="post-title">Hello World</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/5/30
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2024/05/30/hello-world/" class="go-post">阅读全文</a>
-</div>
-
-
-        <div class="page-current">
-    
-    <span class="current">1</span>
-    
-    
-    
-    
-</div>
-
-    </div>
-    
-    <div id="home-card">
-        <div id="card-style">
-    <div id="card-div">
-        <div class="avatar">
-            <img src="/images/avatar2.png" alt="avatar" />
-        </div>
-        <div class="name">d1e4f1ag</div>
-        <div class="description">
-            <p>This is a blog.<br>My blog.</p>
-
-        </div>
-        
-        
-    </div>
-</div>
-
-    </div>
-    
-</div>
-
-            
-        </div>
-        
-        <transition name="fade">
-            <div id="preview" ref="preview" v-show="previewShow">
-                <img id="preview-content" ref="previewContent" />
-            </div>
-        </transition>
-        
-    </div>
-    <script src="/js/main.js"></script>
-    
-</body>
-</html>
+    </html>
