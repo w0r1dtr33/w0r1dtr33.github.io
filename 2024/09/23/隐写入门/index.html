@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8" />
         <title>
-            Tags: 复现 | d1e4f1ag&#39;s land
+            隐写入门 | d1e4f1ag&#39;s land
         </title>
         <meta name="author" content="d1e4f1ag" />
         <meta name="description" content="" />
@@ -42,6 +42,10 @@
 
 
 
+
+
+
+
 <link rel="stylesheet" href="/css/main.css" />
     <meta name="generator" content="Hexo 7.2.0"></head>
 
@@ -67,108 +71,105 @@
     <div class="back2" onclick="window.location.href = '/'">
         <b>HOME</b>
     </div>
-    <div id="archives">
-        
-        <div class="categories-tags">
-            
-            
-            
-            <span>
-                <a href="/tags/%E5%A4%8D%E7%8E%B0/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    复现
-                </a>
+    <div class="article">
+        <div>
+            <h1>隐写入门</h1>
+        </div>
+        <div class="info">
+            <span class="date">
+                <span class="icon">
+                    <i class="fa-solid fa-calendar fa-fw"></i>
+                </span>
+                2024/9/23
             </span>
             
             
-            
-            
-            
-            <span>
-                <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="background: #00bcd4">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    知识点
-                </a>
+            <span class="tags">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                
+                
+                <span class="tag">
+                    
+                    <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" style="color: #00bcd4">
+                        知识点
+                    </a>
+                </span>
+                
             </span>
-            
-            
-            
-            <span>
-                <a href="/tags/%E5%88%B7%E9%A2%98/" style="background: #03a9f4">
-                    <span class="icon">
-                        <i class="fa-solid fa-tags fa-fw"></i>
-                    </span>
-                    刷题
-                </a>
-            </span>
-            
             
         </div>
         
-        <div class="timeline">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/6/1</div>
-                <a href="/2024/06/01/D3CTF2024/">
-                    <h3>D3CTF2024</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E5%A4%8D%E7%8E%B0/" style="color: #00a596">
-                                复现
-                            </a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
+        <p>隐写基础</p>
+<p>原文：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_46981910/article/details/135911555">https://blog.csdn.net/qq_46981910/article/details/135911555</a></p>
+<span id="more"></span>
+
+<h1 id="扫盲"><a href="#扫盲" class="headerlink" title="扫盲"></a>扫盲</h1><h2 id="信息保护"><a href="#信息保护" class="headerlink" title="信息保护"></a>信息保护</h2><ol>
+<li>数据加密<ul>
+<li>通过加密秘钥进行对明文域的加密，加密成密文域，但是可能会导致乱码</li>
+</ul>
+</li>
+<li>图像隐写<ul>
+<li>对正常图片进行嵌入，保证正常图片的情况下隐式写入密文，对观察者不可见</li>
+</ul>
+</li>
+</ol>
+<h2 id="图像隐写方法"><a href="#图像隐写方法" class="headerlink" title="图像隐写方法"></a>图像隐写方法</h2><h3 id="盲隐写和非盲隐写"><a href="#盲隐写和非盲隐写" class="headerlink" title="盲隐写和非盲隐写"></a>盲隐写和非盲隐写</h3><ol>
+<li>盲隐写只需要加密后的图像和密钥(可选)<ul>
+<li>实用</li>
+<li>隐蔽性</li>
+</ul>
+</li>
+<li>非盲隐写需要原始图像，通过比较来找到隐藏的信息<ul>
+<li>更容易实现</li>
+<li>提高信息容量</li>
+</ul>
+</li>
+</ol>
+<h1 id="空间域隐写"><a href="#空间域隐写" class="headerlink" title="空间域隐写"></a>空间域隐写</h1><p>直接操作图像的像素信息来隐藏信息</p>
+<ul>
+<li>直接性：直接修改图片的像素颜色或者亮度之类的</li>
+<li>技术：常见的技术是最低有效位LSB方法，修改了像素值的后几位</li>
+<li>隐蔽性：由修改像素的数量决定</li>
+<li>鲁棒性：容易对图片造成损坏</li>
+</ul>
+<h1 id="频域隐写"><a href="#频域隐写" class="headerlink" title="频域隐写"></a>频域隐写</h1><p>在图像的变换域中隐藏信息，图像需要先被转换到另一个域(如傅里叶变换和小波变换)，然后在域中嵌入信息</p>
+<ul>
+<li>比空间域隐写实现更为复杂</li>
+<li>常见技术包括离散余弦变换和离散小波变换</li>
+<li>由于信息在变换域中是隐藏的，因此对原始图像的视觉影像更小</li>
+</ul>
+<h1 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h1><h2 id="010editor"><a href="#010editor" class="headerlink" title="010editor"></a>010editor</h2><p>略</p>
+<h2 id="StegSolve"><a href="#StegSolve" class="headerlink" title="StegSolve"></a>StegSolve</h2><p>可以看到不同像素通道下的图片信息</p>
+<p>首先先看像素通道有没有通过LSB隐藏的图片</p>
+<ul>
+<li>File Format：文件格式及属性信息。</li>
+<li>Data Extract：数据提取，主要用于提取比特并实现排列组合。</li>
+<li>Stereogram Solver：立体图水平偏移控制，将图片水平偏移后再与原图叠加。</li>
+<li>Frame Browser：帧浏览器，主要是对GIF之类的动图进行分解，可以查看每一帧的图像。</li>
+<li>Image Combiner：拼图，图片拼接。</li>
+</ul>
+<p>Data Extract是一个重要功能，左侧的“Bit Planes”是各通道以及可以选择的比特，“0”代表最低比特，“7”代表最高比特。右侧的“Order Settings”用于设置提取时的顺序，Exract By为按row（行）或column（列）提取像素；“Bit Order”中的MSB First指最高位是第一位，LSB First指最低位是第一位；“Bit Plane Order”用于设置RGB通道的顺序。选择好所有顺序后，单击“Preview”按钮，就能在窗口中预览提取的信息</p>
+
+        <div class="content" v-pre>
+            <!-- 
+    <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%AB%E7%9B%B2"><span class="toc-text">扫盲</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="toc-text">信息保护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E9%9A%90%E5%86%99%E6%96%B9%E6%B3%95"><span class="toc-text">图像隐写方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B2%E9%9A%90%E5%86%99%E5%92%8C%E9%9D%9E%E7%9B%B2%E9%9A%90%E5%86%99"><span class="toc-text">盲隐写和非盲隐写</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E5%9F%9F%E9%9A%90%E5%86%99"><span class="toc-text">空间域隐写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%91%E5%9F%9F%E9%9A%90%E5%86%99"><span class="toc-text">频域隐写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="toc-text">常用工具</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#010editor"><span class="toc-text">010editor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#StegSolve"><span class="toc-text">StegSolve</span></a></li></ol></li></ol>
+    </div>
+ -->
         </div>
+
         
-        <div class="timeline">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2024/5/31</div>
-                <a href="/2024/05/31/RCTF2024/">
-                    <h3>RCTF2024</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                    <span class="tags">
-                        <span class="icon">
-                            <i class="fa-solid fa-tags fa-fw"></i>
-                        </span>
-                        
-                        
-                        <span class="tag">
-                            
-                            <a href="/tags/%E5%A4%8D%E7%8E%B0/" style="color: #03a9f4">
-                                复现
-                            </a>
-                        </span>
-                        
-                    </span>
-                    
-                </div>
-            </div>
-        </div>
+        
+        
+        
+        
+        
         
     </div>
     <script src="/js/toc.js"></script>
+    <script src="/js/code.js"></script>
 </body>
 
                 </div>
@@ -186,6 +187,12 @@
             style="visibility: hidden;"></div>
         <script src="/js/main.js"></script>
         
+            
+
+
+
+
+                
     </body>
 
     </html>

